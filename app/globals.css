@@ -1,26 +1,294 @@
-@import "tailwindcss";
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap');
+@import 'tailwindcss';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #0d0d0d;
+  --surface: #141414;
+  --surface-2: #1c1c1c;
+  --text: #f0eee8;
+  --muted: #555;
+  --muted-2: #2e2e2e;
+  --accent: #caff33;
+  --accent-dim: rgba(202, 255, 51, 0.08);
+  --border: rgba(255, 255, 255, 0.07);
+  --green: #4ade80;
+  --font-display: 'Clash Display', sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: auto;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg);
+  background-image: url('/visible_texture_161619.png');
+  background-repeat: repeat;
+  background-size: 300px 300px;
+  color: var(--text);
+  font-family: var(--font-inter, Inter, sans-serif);
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* No extra grain overlay - texture image handles it */
+
+::selection {
+  background: var(--accent);
+  color: #000;
+}
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--muted-2);
+  border-radius: 4px;
+}
+
+.font-display {
+  font-family: var(--font-display) !important;
+}
+
+.nav-static__link:hover,
+.nav-static__link:focus-visible {
+  color: var(--text) !important;
+}
+
+.nav-static__cta:hover,
+.nav-static__cta:focus-visible {
+  background: var(--accent-dim) !important;
+}
+
+@keyframes ping-dot {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 9px rgba(74, 222, 128, 0);
+  }
+}
+@keyframes scroll-line {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  49% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  50% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+@keyframes mq {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ── Responsive layout helpers ── */
+.pg {
+  padding-left: 52px;
+  padding-right: 52px;
+}
+
+@media (max-width: 1024px) {
+  .pg {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+@media (max-width: 640px) {
+  .pg {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+/* ── Section padding ── */
+.sec {
+  padding: 100px 52px;
+}
+.sec-lg {
+  padding: 130px 52px;
+}
+.sec-sm {
+  padding: 72px 52px;
+}
+@media (max-width: 1024px) {
+  .sec {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+  .sec-lg {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+  .sec-sm {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+@media (max-width: 640px) {
+  .sec {
+    padding: 60px 20px;
+  }
+  .sec-lg {
+    padding: 72px 20px;
+  }
+  .sec-sm {
+    padding: 48px 20px;
+  }
+}
+
+/* ── Grids ── */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+}
+@media (max-width: 900px) {
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 560px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Work row - collapses tags below title on mobile */
+.work-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 32px;
+}
+@media (max-width: 640px) {
+  .work-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .work-row-meta {
+    display: none;
+  }
+}
+
+/* Nav */
+@media (max-width: 768px) {
+  .nav-static__links {
+    display: none !important;
+  }
+  .nav-static__logo {
+    font-size: 14px !important;
+  }
+}
+
+/* Hero bottom bar */
+@media (max-width: 900px) {
+  .hero-bottom {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .hero-scroll-cue {
+    display: none !important;
+  }
+  .hero-right {
+    grid-column: 1 / -1 !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+}
+@media (max-width: 640px) {
+  .hero-bottom {
+    grid-template-columns: 1fr !important;
+    padding-top: 32px !important;
+  }
+  .hero-right {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+  }
+  .hero-cta-row {
+    flex-wrap: wrap !important;
+  }
+}
+
+/* About timeline */
+@media (max-width: 900px) {
+  .timeline-row {
+    grid-template-columns: 120px 1fr !important;
+  }
+  .timeline-desc {
+    grid-column: 2 !important;
+  }
+}
+@media (max-width: 640px) {
+  .timeline-row {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+}
+
+/* Generic col grids */
+@media (max-width: 768px) {
+  .grid-2col {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .grid-3col {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  .grid-cats {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+  .contact-name-email {
+    grid-template-columns: 1fr !important;
+  }
+  .contact-layout {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+}
+
+/* Terminal mobile */
+@media (max-width: 640px) {
+  .terminal-window {
+    width: calc(100vw - 24px) !important;
+    left: 12px !important;
+    top: 60px !important;
+  }
+}
+
+/* Shortcut panel mobile */
+@media (max-width: 480px) {
+  .shortcuts-panel {
+    width: calc(100vw - 32px) !important;
+    left: 16px !important;
+    right: 16px !important;
+  }
 }
