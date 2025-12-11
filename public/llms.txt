@@ -1,0 +1,63 @@
+# Ayodele Ayoola - Software Developer
+
+## Identity
+- Full name: Ayodele Ayoola
+- Role: Software Developer
+- Location: London, United Kingdom
+- Email: ayodeleayoolaoke4@gmail.com
+- Website: https://ayodeleayoola.com
+- LinkedIn: https://linkedin.com/in/ayodele-ayoola
+- GitHub: https://github.com/creedtech
+
+## Summary
+Ayodele Ayoola is a Software Developer based in London, UK, with over 6 years of professional experience building high-performance web, mobile, and full-stack applications. He holds a First Class Honours degree in Computer Science from Middlesex University London (2025) and an Advanced Diploma in Software Engineering with Distinction from Aptech Computer Education (2022).
+
+## Core Expertise
+- Frontend: React, Next.js, TypeScript, JavaScript (ES6+), Redux Toolkit, Tailwind CSS, GSAP, Three.js, Framer Motion
+- Backend: Node.js, Express.js, Python, REST APIs, GraphQL, WebSockets
+- Mobile: Flutter, React Native (iOS & Android)
+- Databases: PostgreSQL, MongoDB, Redis, Firebase / Firestore
+- Cloud & DevOps: AWS (EC2, S3, Lambda), Docker, CI/CD Pipelines, Vercel
+- Testing: Jest, React Testing Library, Cypress, Playwright
+- Design: Figma, Storybook, Design Systems, WCAG Accessibility
+- Payments: Stripe, PayPal, Flutterwave, Paystack
+
+## Work History
+1. Senior Software Developer - ScanSan Properties, London (June 2025 – Present)
+   Leading frontend of a Web3 property investment platform. Built PAA AI assistant and real-time property analytics. Reduced new feature dev time by 25% via reusable UI architecture.
+
+2. Software Developer (Tech Lead) - RentSpace Technologies, London (Aug 2023 – May 2025)
+   Built and launched a cross-platform savings and lending app: 5,000+ MAU, 4.8 App Store rating. Optimised transaction speed 40%, boosted checkout success 30%.
+
+3. Senior Full-Stack Developer - Vanguard Media Limited, Remote (Apr 2022 – Aug 2023)
+   Applications serving 5M+ monthly users. Reduced API load 35%. Contributed to 120% increase in mobile ad revenue.
+
+4. Software Developer - Dowell Research UK, London (Nov 2021 – Mar 2022)
+   Full-stack UX research platform for 500+ enterprise clients. Integrated Stripe and PayPal for multi-currency transactions.
+
+5. Frontend Mobile Developer - FUDAP CO, Remote (Jan 2021 – Oct 2021)
+   Food ordering and delivery app with real-time GPS. Reduced cold-start times 60%, boosted repeat orders 25%.
+
+6. Frontend Web Developer - Zummit Africa, Remote (Jul 2020 – Dec 2020)
+   AI learning platform UI. Reduced load time 68% via lazy loading and code splitting.
+
+## Education
+- BSc Computer Science, First Class Honours - Middlesex University London, 2022–2025
+- Advanced Diploma in Software Engineering, Distinction - Aptech Computer Education, 2020–2022
+
+## Notable Projects
+- PAA AI Property Assistant: AI-powered property insight tool for ScanSan's Web3 platform
+- RentSpace Savings App: 5,000+ MAU, 4.8-star cross-platform fintech app
+- Vanguard Media Platform: Web and mobile serving 5M+ monthly users
+- UX Research Platform: Enterprise tool for 500+ global clients with Stripe/PayPal integration
+
+## Services Offered
+- Frontend Engineering (React, Next.js, TypeScript)
+- Full-Stack Development (Node.js, PostgreSQL, MongoDB)
+- Mobile Development (Flutter, React Native)
+- Creative Development (GSAP, Three.js, WebGL)
+- Design Systems (Storybook, Figma, design tokens)
+- Technical Consulting (architecture reviews, performance audits, mentoring)
+
+## Availability
+Available for senior engineering roles, freelance projects, and technical consulting in London and remotely across the UK, Europe, and North America.

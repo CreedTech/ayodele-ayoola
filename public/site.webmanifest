@@ -1,0 +1,16 @@
+{
+  "name": "Ayodele Ayoola - Software Developer",
+  "short_name": "Ayodele Ayoola",
+  "description": "Portfolio of Ayodele Ayoola, Software Developer based in London, UK.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0d0d0d",
+  "theme_color": "#0d0d0d",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}
