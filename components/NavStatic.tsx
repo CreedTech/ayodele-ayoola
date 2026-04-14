@@ -4,11 +4,10 @@ import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 const links = [
-  // { href: '/', label: 'Home' },
-  // { href: '/#work', label: 'Work' },
   { href: '/about', label: 'About' },
   { href: '/projects', label: 'Projects' },
   { href: '/stack', label: 'Stack' },
+  { href: '/contact', label: 'Contact' },
 ];
 
 export default function NavStatic() {
