@@ -70,6 +70,24 @@ export default function GitHubSection() {
         }
       `}</style>
 
+      <div style={{ width: '65%', margin: '0 auto 20px' }}>
+        <p style={{
+          fontSize: 11,
+          letterSpacing: '.28em',
+          textTransform: 'uppercase',
+          color: 'var(--accent)',
+          marginBottom: 12,
+        }}>
+          GitHub Activity
+        </p>
+        <h2
+          className="font-display"
+          style={{ fontSize: 'clamp(28px,4vw,48px)', fontWeight: 700, letterSpacing: '-.03em', lineHeight: 1 }}
+        >
+          Contributions
+        </h2>
+      </div>
+
       <div
         className="gh-card"
         style={{
