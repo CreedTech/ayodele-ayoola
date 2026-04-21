@@ -71,7 +71,12 @@ export default function LinkHoverCursor() {
     const attach = () => document.querySelectorAll("a, button").forEach(el => { remove(el); add(el); });
     attach();
 
-    const observer = new MutationObserver(attach);
+    let pending = false;
+    const observer = new MutationObserver(() => {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(() => { attach(); pending = false; });
+    });
     observer.observe(document.body, { childList: true, subtree: true });
 
     return () => {
