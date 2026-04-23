@@ -18,7 +18,7 @@ export default function FooterSection() {
       }}
     >
       <p style={{ fontSize: 12, color: "var(--muted)" }}>
-        © {year} {personal.name}. Built with Next.js &amp; GSAP.
+        © {year} {personal.name}. Built with Next.js, TypeScript &amp; GSAP.
       </p>
 
       <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
@@ -36,7 +36,26 @@ export default function FooterSection() {
         ))}
       </div>
 
-      <p style={{ fontSize: 12, color: "var(--muted)" }}>{personal.location}</p>
+      <button
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        style={{
+          background: "none",
+          border: "1px solid var(--border)",
+          borderRadius: 100,
+          padding: "5px 14px",
+          color: "var(--muted)",
+          fontSize: 11,
+          letterSpacing: ".08em",
+          textTransform: "uppercase",
+          cursor: "pointer",
+          transition: "border-color .12s, color .12s",
+          fontFamily: "inherit",
+        }}
+        onMouseEnter={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,.2)"; e.currentTarget.style.color = "var(--text)"; }}
+        onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--muted)"; }}
+      >
+        ↑ Back to top
+      </button>
     </footer>
   );
 }
