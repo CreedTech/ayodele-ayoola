@@ -1,7 +1,7 @@
 'use client';
 import { AsciiArt } from '@/components/ascii-art';
 import ExperienceOverviewSection from '@/components/ExperienceOverviewSection';
-import { CV_URL } from '@/lib/data';
+import { CV_VIEW_URL, CV_DOWNLOAD_URL } from '@/lib/data';
 
 const VALUES = [
   {
@@ -91,8 +91,9 @@ export default function AboutPage() {
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
             <a
-              href={CV_URL}
-              download="Ayodele_Ayoola_CV.pdf"
+              href={CV_DOWNLOAD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -119,7 +120,7 @@ export default function AboutPage() {
               Download CV
             </a>
             <a
-              href={CV_URL}
+              href={CV_VIEW_URL}
               target="_blank"
               rel="noopener noreferrer"
               style={{

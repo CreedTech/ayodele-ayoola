@@ -1,5 +1,7 @@
-export const CV_URL =
-  'https://res.cloudinary.com/dkrutkbjs/raw/upload/v1/portfolio/Ayodele_Ayoola_CV.pdf';
+export const CV_VIEW_URL =
+  'https://drive.google.com/file/d/1wMtfs5jvIuIFCnGBeI9JIIdmIXSaWPEt/view?usp=sharing';
+export const CV_DOWNLOAD_URL =
+  'https://drive.google.com/uc?export=download&id=1wMtfs5jvIuIFCnGBeI9JIIdmIXSaWPEt';
 
 export const personal = {
   name: "Ayodele Ayoola",

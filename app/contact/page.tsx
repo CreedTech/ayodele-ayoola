@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { personal, socials, CV_URL } from '@/lib/data';
+import { personal, socials, CV_VIEW_URL, CV_DOWNLOAD_URL } from '@/lib/data';
 
 const icons: Record<string, string> = {
   github:
@@ -269,8 +269,9 @@ export default function ContactPage() {
             </span>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <a
-                href={CV_URL}
-                download="Ayodele_Ayoola_CV.pdf"
+                href={CV_DOWNLOAD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: 8,
                   padding: '10px 22px', borderRadius: 100,
@@ -288,7 +289,7 @@ export default function ContactPage() {
                 Download CV
               </a>
               <a
-                href={CV_URL}
+                href={CV_VIEW_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
