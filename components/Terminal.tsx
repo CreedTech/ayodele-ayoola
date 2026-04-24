@@ -362,7 +362,7 @@ export default function Terminal() {
       case 'input':
         return 'var(--text)';
       case 'output':
-        return '#4ade80';
+        return '#22c55e';
       case 'error':
         return '#f87171';
       case 'system':

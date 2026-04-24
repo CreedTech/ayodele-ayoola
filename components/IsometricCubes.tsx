@@ -37,7 +37,7 @@ export default function IsometricCubes() {
 
     // Dot material
     const dotMat = new THREE.PointsMaterial({
-      color: 0x4ade80,
+      color: 0x22c55e,
       size: 0.055,
       transparent: true,
       opacity: 0.9,
