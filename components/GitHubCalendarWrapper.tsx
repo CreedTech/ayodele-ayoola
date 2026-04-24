@@ -8,13 +8,17 @@ const theme = {
   dark:  ["#1a1a1a", "#1a3a00", "#2d6500", "#4a9e00", "#CAFF33"],
 };
 
-const BLOCK_MARGIN = 4;
 const WEEKS = 53;
-const DAY_LABEL_WIDTH = 28;
+const LABEL_WIDTH = 30; // approximate space for day-of-week labels
 
-function computeBlockSize(containerWidth: number) {
-  const bs = Math.floor((containerWidth - DAY_LABEL_WIDTH) / WEEKS) - BLOCK_MARGIN;
-  return Math.min(13, Math.max(6, bs));
+function computeBlockParams(containerWidth: number) {
+  // Reduce blockMargin on small screens to reclaim space
+  const blockMargin = containerWidth < 500 ? 2 : containerWidth < 768 ? 3 : 4;
+  const bs = Math.floor((containerWidth - LABEL_WIDTH) / WEEKS) - blockMargin;
+  return {
+    blockSize: Math.min(13, Math.max(3, bs)),
+    blockMargin,
+  };
 }
 
 interface Props { year?: number; }
@@ -22,7 +26,7 @@ interface Props { year?: number; }
 export default function GitHubCalendarWrapper({ year }: Props) {
   const [Cal, setCal] = useState<any>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
-  const [blockSize, setBlockSize] = useState(13);
+  const [blockParams, setBlockParams] = useState({ blockSize: 13, blockMargin: 4 });
 
   useEffect(() => {
     import("react-github-calendar").then(mod => {
@@ -34,11 +38,10 @@ export default function GitHubCalendarWrapper({ year }: Props) {
   useEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
-    const ro = new ResizeObserver(entries => {
-      setBlockSize(computeBlockSize(entries[0].contentRect.width));
-    });
+    const update = (width: number) => setBlockParams(computeBlockParams(width));
+    const ro = new ResizeObserver(entries => update(entries[0].contentRect.width));
     ro.observe(el);
-    setBlockSize(computeBlockSize(el.offsetWidth));
+    update(el.offsetWidth);
     return () => ro.disconnect();
   }, []);
 
@@ -54,9 +57,9 @@ export default function GitHubCalendarWrapper({ year }: Props) {
           year={year}
           theme={theme}
           colorScheme="dark"
-          fontSize={Math.max(9, blockSize - 2)}
-          blockSize={blockSize}
-          blockMargin={BLOCK_MARGIN}
+          fontSize={Math.max(9, blockParams.blockSize - 1)}
+          blockSize={blockParams.blockSize}
+          blockMargin={blockParams.blockMargin}
           style={{ color: "var(--muted)", display: "block", width: "100%" }}
         />
       )}

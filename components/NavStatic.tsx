@@ -239,7 +239,11 @@ export default function NavStatic() {
 
       <style>{`
         @media (max-width: 768px) {
+          .nav-static__links { display: none !important; }
           .nav-hamburger { display: block !important; }
+        }
+        @media (max-width: 480px) {
+          .nav-static__cta { padding: 6px 12px !important; font-size: 10px !important; letter-spacing: .06em !important; }
         }
       `}</style>
     </>
