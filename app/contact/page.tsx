@@ -38,7 +38,7 @@ export default function ContactPage() {
     width: '100%',
     background:
       focused === name ? 'rgba(255,255,255,.04)' : 'rgba(255,255,255,.02)',
-    border: `1px solid ${focused === name ? 'rgba(202,255,51,.4)' : 'var(--border)'}`,
+    border: `1px solid ${focused === name ? 'rgba(34,197,94,.4)' : 'var(--border)'}`,
     borderRadius: 10,
     padding: '14px 18px',
     fontSize: 14,
@@ -282,7 +282,7 @@ export default function ContactPage() {
                   width: 64,
                   height: 64,
                   borderRadius: '50%',
-                  background: 'rgba(202,255,51,.12)',
+                  background: 'rgba(34,197,94,.12)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -486,7 +486,7 @@ export default function ContactPage() {
                     borderRadius: 100,
                     background:
                       status === 'sending'
-                        ? 'rgba(202,255,51,.6)'
+                        ? 'rgba(34,197,94,.6)'
                         : 'var(--accent)',
                     color: '#000',
                     fontSize: 12,

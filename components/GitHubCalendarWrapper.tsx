@@ -4,8 +4,8 @@ import { useEffect, useState, useRef } from "react";
 import { GITHUB_USERNAME } from "@/lib/data";
 
 const theme = {
-  light: ["#1a1a1a", "#1a3a00", "#2d6500", "#4a9e00", "#CAFF33"],
-  dark:  ["#1a1a1a", "#1a3a00", "#2d6500", "#4a9e00", "#CAFF33"],
+  light: ["#1a1a1a", "#0d2d1a", "#145228", "#1a7a3c", "#22c55e"],
+  dark:  ["#1a1a1a", "#0d2d1a", "#145228", "#1a7a3c", "#22c55e"],
 };
 
 const WEEKS = 53;

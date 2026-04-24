@@ -366,7 +366,7 @@ export default function Terminal() {
       case 'error':
         return '#f87171';
       case 'system':
-        return '#CAFF33';
+        return '#22c55e';
     }
   };
 
@@ -577,7 +577,7 @@ function TerminalWindow({
             {line.type === 'input' && (
               <span
                 style={{
-                  color: '#CAFF33',
+                  color: '#22c55e',
                   flexShrink: 0,
                   userSelect: 'none',
                   lineHeight: 1.6,
@@ -612,7 +612,7 @@ function TerminalWindow({
       >
         <span
           style={{
-            color: '#CAFF33',
+            color: '#22c55e',
             flexShrink: 0,
             userSelect: 'none',
             lineHeight: 1,
@@ -644,7 +644,7 @@ function TerminalWindow({
               fontFamily: 'inherit',
               fontSize: 'inherit',
               width: '100%',
-              caretColor: '#CAFF33',
+              caretColor: '#22c55e',
             }}
             autoComplete="off"
             spellCheck={false}

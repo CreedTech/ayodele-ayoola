@@ -2,13 +2,13 @@ export const personal = {
   name: "Ayodele Ayoola",
   short: "AYOOLA",
   initials: "AO",
-  title: "Senior Frontend Engineer",
+  title: "Software Developer",
   location: "London, United Kingdom",
   email: "ayodeleayoolaoke4@gmail.com",
   phone: "+447551113208",
   linkedin: "linkedin.com/in/ayodele-ayoola",
   summary:
-    "Senior Frontend Engineer with 6+ years of experience building scalable products across PropTech, FinTech, and Web3. I specialise in React, Next.js, Flutter and TypeScript, with strong full-stack capability across Node.js, MongoDB, and cloud infrastructure. I’ve led the development of investor platforms, AI-powered systems, and high-scale applications serving millions of users. I focus on performance, system design, and turning complex data into intuitive user experiences.",
+    "Software Developer with 6+ years of experience building scalable products across PropTech, FinTech, and Web3. I specialise in React, Next.js, Flutter and TypeScript, with strong full-stack capability across Node.js, MongoDB, and cloud infrastructure. I’ve led the development of investor platforms, AI-powered systems, and high-scale applications serving millions of users. I focus on performance, system design, and turning complex data into intuitive user experiences.",
 };
 
 export const projects = [
@@ -540,9 +540,7 @@ export const skills = [
 export const socials = [
   { label: "GitHub", href: "https://github.com/creedtech", icon: "github" },
   { label: "LinkedIn", href: "https://linkedin.com/in/ayodele-ayoola", icon: "linkedin" },
-  { label: "Twitter / X", href: "https://twitter.com", icon: "twitter" },
-  { label: "Dev.to", href: "https://dev.to", icon: "devto" },
-  { label: "Stackoverflow", href: "https://stackoverflow.com", icon: "stack" },
+  { label: "Twitter / X", href: "https://twitter.com/lazy_programma", icon: "twitter" },
 ];
 
 

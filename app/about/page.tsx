@@ -280,8 +280,8 @@ export default function AboutPage() {
                   <span
                     style={{
                       padding: '3px 10px',
-                      background: 'rgba(202,255,51,.1)',
-                      border: '1px solid rgba(202,255,51,.3)',
+                      background: 'rgba(34,197,94,.1)',
+                      border: '1px solid rgba(34,197,94,.3)',
                       borderRadius: 100,
                       fontSize: 10,
                       color: 'var(--accent)',

@@ -131,7 +131,7 @@ export default function NavStatic() {
               textTransform: 'uppercase',
               color: 'var(--accent)',
               textDecoration: 'none',
-              border: '1px solid rgba(202,255,51,.3)',
+              border: '1px solid rgba(34,197,94,.3)',
               padding: '8px 18px',
               borderRadius: 100,
               transition: 'background .12s',

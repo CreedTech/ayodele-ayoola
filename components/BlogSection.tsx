@@ -82,7 +82,7 @@ export default function BlogSection() {
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 32 }}>
               <span style={{
                 fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase",
-                color: "var(--accent)", border: "1px solid rgba(202,255,51,.25)",
+                color: "var(--accent)", border: "1px solid rgba(34,197,94,.25)",
                 padding: "4px 12px", borderRadius: 100,
               }}>
                 {post.tag}

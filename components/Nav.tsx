@@ -72,7 +72,7 @@ export default function Nav({ visible }: { visible: boolean }) {
         style={{
           fontSize: 12, letterSpacing: ".08em", textTransform: "uppercase",
           color: "var(--accent)", textDecoration: "none",
-          border: "1px solid rgba(202,255,51,.35)",
+          border: "1px solid rgba(34,197,94,.35)",
           padding: "8px 18px", borderRadius: 100,
           transition: "background .12s",
         }}

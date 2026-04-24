@@ -8,7 +8,7 @@ import HeroSection from '@/components/HeroSection';
 import MarqueeSection from '@/components/MarqueeSection';
 import ExperienceOverviewSection from '@/components/ExperienceOverviewSection';
 import GitHubSection from '@/components/GitHubSection';
-import ServicesSection from '@/components/ServicesSection';
+// import ServicesSection from '@/components/ServicesSection';
 import ContactSection from '@/components/ContactSection';
 import FooterSection from '@/components/FooterSection';
 import JsonLd from '@/components/JsonLd';
@@ -279,7 +279,7 @@ export default function Home() {
       <MarqueeSection />
       <ExperienceOverviewSection />
       <GitHubSection />
-      <ServicesSection />
+      {/* <ServicesSection /> */}
       <ContactSection />
       <FooterSection />
     </main>
