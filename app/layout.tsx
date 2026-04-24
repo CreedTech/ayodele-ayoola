@@ -109,7 +109,7 @@ export const metadata: Metadata = {
   },
   manifest: '/site.webmanifest',
   verification: {
-    google: 'REPLACE_WITH_GOOGLE_VERIFICATION_CODE',
+    google: 'RryNM9eccBjEvPiyH4ElMh0F3VoDtAP_LZV4yjTO7_U',
   },
   category: 'technology',
   classification: 'Software Engineering Portfolio',
@@ -128,7 +128,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${clashDisplay.variable}`}>
       <head>
-        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://api.fontshare.com"
+          crossOrigin="anonymous"
+        />
         <link rel="canonical" href={SITE_URL} />
         <meta name="geo.region" content="GB-LND" />
         <meta name="geo.placename" content="London, United Kingdom" />
