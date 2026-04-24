@@ -49,19 +49,13 @@ export default function GitHubSection() {
           color: #000 !important;
         }
         @media (max-width: 1024px) {
-          .gh-card {
-            width: 82% !important;
-            padding: 26px 24px 22px !important;
-          }
+          .gh-card, .gh-heading { width: 82% !important; }
+          .gh-card { padding: 26px 24px 22px !important; }
         }
         @media (max-width: 768px) {
-          .gh-card {
-            width: 100% !important;
-            padding: 24px 20px 20px !important;
-          }
-          .gh-card-body {
-            flex-direction: column !important;
-          }
+          .gh-card, .gh-heading { width: 100% !important; }
+          .gh-card { padding: 24px 16px 20px !important; }
+          .gh-card-body { flex-direction: column !important; }
           .gh-year-list {
             flex-direction: row !important;
             flex-wrap: wrap !important;
@@ -70,7 +64,7 @@ export default function GitHubSection() {
         }
       `}</style>
 
-      <div style={{ width: '65%', margin: '0 auto 20px' }}>
+      <div className="gh-heading" style={{ width: '65%', margin: '0 auto 20px' }}>
         <p style={{
           fontSize: 11,
           letterSpacing: '.28em',
@@ -107,7 +101,6 @@ export default function GitHubSection() {
             style={{
               flex: 1,
               minWidth: 0,
-              overflowX: 'auto',
               paddingBottom: 4,
             }}
           >

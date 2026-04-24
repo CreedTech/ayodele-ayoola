@@ -20,7 +20,8 @@ export default function NavStatic() {
         style={{
           position: 'relative',
           zIndex: 100,
-          padding: '22px 52px',
+          paddingTop: '22px',
+          paddingBottom: '22px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -39,7 +40,7 @@ export default function NavStatic() {
             textDecoration: 'none',
           }}
         >
-          Ayodele Ayoola
+          Ayoola
         </Link>
 
         {/* Desktop nav */}

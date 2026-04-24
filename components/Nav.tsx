@@ -26,11 +26,13 @@ export default function Nav({ visible }: { visible: boolean }) {
   return (
     <nav
       ref={navRef}
+      className="pg"
       style={{
         position: "fixed", top: 0, left: 0, right: 0,
         zIndex: 500,
         opacity: 0,
-        padding: scrolled ? "16px 52px" : "26px 52px",
+        paddingTop: scrolled ? "16px" : "26px",
+        paddingBottom: scrolled ? "16px" : "26px",
         display: "flex", alignItems: "center", justifyContent: "space-between",
         background: scrolled ? "rgba(13,13,13,.88)" : "transparent",
         backdropFilter: scrolled ? "blur(22px)" : "none",
@@ -43,7 +45,7 @@ export default function Nav({ visible }: { visible: boolean }) {
         className="font-display"
         style={{ fontSize: 17, fontWeight: 600, letterSpacing: "-.02em", color: "var(--text)", textDecoration: "none" }}
       >
-        AyodeleAyoola
+        Ayoola
       </a>
 
       <ul style={{ display: "flex", gap: 34, listStyle: "none" }}>
