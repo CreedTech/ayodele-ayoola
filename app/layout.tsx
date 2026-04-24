@@ -128,7 +128,7 @@ export default function RootLayout({
         <meta property="profile:last_name" content="Ayoola" />
         <link rel="me" href="https://linkedin.com/in/ayodele-ayoola" />
       </head>
-      <body className="antialiased">
+      <body className="antialiased" suppressHydrationWarning>
         <NavStatic />
         {children}
         <GlobalShell />
