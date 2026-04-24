@@ -18,8 +18,9 @@ export default function ProjectsPage() {
       <style>{`
         @media (max-width: 768px) {
           .pj-hero { padding-top: 56px !important; }
-          .pj-filters { display: none !important; }
+          .pj-filters { flex-wrap: wrap !important; gap: 8px !important; padding-top: 24px !important; padding-bottom: 24px !important; }
           .pj-row-meta { display: none !important; }
+          .pj-filter-btn { font-size: 10px !important; padding: 4px 12px !important; }
         }
         .pj-filter-btn {
           padding: 5px 16px;
