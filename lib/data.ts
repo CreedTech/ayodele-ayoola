@@ -1,3 +1,6 @@
+export const CV_URL =
+  'https://res.cloudinary.com/dkrutkbjs/raw/upload/v1/portfolio/Ayodele_Ayoola_CV.pdf';
+
 export const personal = {
   name: "Ayodele Ayoola",
   short: "AYOOLA",

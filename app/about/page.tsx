@@ -1,6 +1,7 @@
 'use client';
 import { AsciiArt } from '@/components/ascii-art';
 import ExperienceOverviewSection from '@/components/ExperienceOverviewSection';
+import { CV_URL } from '@/lib/data';
 
 const VALUES = [
   {
@@ -83,10 +84,61 @@ export default function AboutPage() {
               color: 'var(--muted)',
               maxWidth: 520,
               lineHeight: 1.65,
+              marginBottom: 32,
             }}
           >
             From Lagos to London - a story of code, craft, and constant growth.
           </p>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
+            <a
+              href={CV_URL}
+              download="Ayodele_Ayoola_CV.pdf"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                padding: '11px 24px',
+                borderRadius: 100,
+                background: 'var(--accent)',
+                color: '#000',
+                fontSize: 12,
+                fontWeight: 600,
+                letterSpacing: '.08em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                transition: 'opacity .15s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.opacity = '.85')}
+              onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Download CV
+            </a>
+            <a
+              href={CV_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                fontSize: 12,
+                letterSpacing: '.08em',
+                textTransform: 'uppercase',
+                color: 'var(--muted)',
+                textDecoration: 'none',
+                transition: 'color .15s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--text)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--muted)')}
+            >
+              View PDF ↗
+            </a>
+          </div>
         </div>
         {/* ── Portrait placeholder ── */}
         <AsciiArt

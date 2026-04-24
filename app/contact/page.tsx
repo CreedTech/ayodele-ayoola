@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { personal, socials } from '@/lib/data';
+import { personal, socials, CV_URL } from '@/lib/data';
 
 const icons: Record<string, string> = {
   github:
@@ -259,6 +259,51 @@ export default function ContactPage() {
                   {s.label}
                 </a>
               ))}
+            </div>
+          </div>
+
+          {/* CV */}
+          <div style={{ marginTop: 40, paddingTop: 32, borderTop: '1px solid var(--border)' }}>
+            <span style={{ fontSize: 10, letterSpacing: '.2em', textTransform: 'uppercase', color: 'var(--muted)', display: 'block', marginBottom: 16 }}>
+              Resume
+            </span>
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+              <a
+                href={CV_URL}
+                download="Ayodele_Ayoola_CV.pdf"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  padding: '10px 22px', borderRadius: 100,
+                  background: 'var(--accent)', color: '#000',
+                  fontSize: 11, fontWeight: 600, letterSpacing: '.08em',
+                  textTransform: 'uppercase', textDecoration: 'none',
+                  transition: 'opacity .15s',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.opacity = '.85')}
+                onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Download CV
+              </a>
+              <a
+                href={CV_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                  padding: '10px 18px', borderRadius: 100,
+                  border: '1px solid var(--border)', color: 'var(--muted)',
+                  fontSize: 11, letterSpacing: '.08em',
+                  textTransform: 'uppercase', textDecoration: 'none',
+                  transition: 'border-color .15s, color .15s',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(255,255,255,.2)'; e.currentTarget.style.color = 'var(--text)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--muted)'; }}
+              >
+                View PDF ↗
+              </a>
             </div>
           </div>
         </div>
