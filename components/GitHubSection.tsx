@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
-import GitHubCalendarWrapper from './GitHubCalendarWrapper';
+import dynamic from 'next/dynamic';
+const GitHubCalendarWrapper = dynamic(() => import('./GitHubCalendarWrapper'), { ssr: false });
 
 const CURRENT_YEAR = new Date().getFullYear();
 const YEARS = [

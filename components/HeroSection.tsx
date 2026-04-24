@@ -2,7 +2,8 @@
 import { useEffect, useRef, useSyncExternalStore } from 'react';
 import gsap from 'gsap';
 import { socials, personal } from '@/lib/data';
-import IsometricCubes from './IsometricCubes';
+import dynamic from 'next/dynamic';
+const IsometricCubes = dynamic(() => import('./IsometricCubes'), { ssr: false });
 import PointerHighlight from './PointerHighlight';
 
 const icons: Record<string, string> = {

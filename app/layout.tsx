@@ -116,6 +116,22 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <head>
+        {/* Clash Display font — preconnect then load async to avoid render-blocking */}
+        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
+        <link
+          rel="preload"
+          as="style"
+          href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap"
+        />
+        <link
+          rel="stylesheet"
+          href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap"
+          media="print"
+          onLoad={(e) => { (e.currentTarget as HTMLLinkElement).media = 'all'; }}
+        />
+        <noscript>
+          <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap" />
+        </noscript>
         <link rel="canonical" href={SITE_URL} />
         <meta name="geo.region" content="GB-LND" />
         <meta name="geo.placename" content="London, United Kingdom" />
