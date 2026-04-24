@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# CV / resume files
+Ayodele_Ayoola_Senior_Frontend_developer.*
+
+# macOS temp files
+app/.!*
