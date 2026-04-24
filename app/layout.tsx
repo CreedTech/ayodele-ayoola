@@ -1,14 +1,25 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 import NavStatic from '@/components/NavStatic';
 import GlobalShell from '@/components/GlobalShell';
-import FontLoader from '@/components/FontLoader';
 
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
   weight: ['300', '400', '500'],
+});
+
+const clashDisplay = localFont({
+  src: [
+    { path: '../public/fonts/ClashDisplay-400.woff2', weight: '400' },
+    { path: '../public/fonts/ClashDisplay-500.woff2', weight: '500' },
+    { path: '../public/fonts/ClashDisplay-600.woff2', weight: '600' },
+    { path: '../public/fonts/ClashDisplay-700.woff2', weight: '700' },
+  ],
+  variable: '--font-clash',
+  display: 'swap',
 });
 
 const SITE_URL = 'https://ayodeleayoola.com';
@@ -115,7 +126,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${inter.variable} ${clashDisplay.variable}`}>
       <head>
         <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
         <link rel="canonical" href={SITE_URL} />
@@ -131,7 +142,7 @@ export default function RootLayout({
         <link rel="me" href="https://linkedin.com/in/ayodele-ayoola" />
       </head>
       <body className="antialiased" suppressHydrationWarning>
-        <FontLoader />
+        {/* <FontLoader /> */}
         <NavStatic />
         {children}
         <GlobalShell />
