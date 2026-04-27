@@ -23,7 +23,7 @@ const breadcrumbSchema = {
       '@type': 'ListItem',
       position: 1,
       name: 'Home',
-      item: 'https://ayodeleayoola.com',
+      item: 'https://www.ayodeleayoola.com',
     },
     {
       '@type': 'ListItem',

@@ -22,7 +22,7 @@ const clashDisplay = localFont({
   display: 'swap',
 });
 
-const SITE_URL = 'https://ayodeleayoola.com';
+const SITE_URL = 'https://www.ayodeleayoola.com';
 const FULL_NAME = 'Ayodele Ayoola';
 const TITLE = 'Ayodele Ayoola - Software Developer, London';
 const DESCRIPTION =

@@ -13,7 +13,7 @@ import ContactSection from '@/components/ContactSection';
 import FooterSection from '@/components/FooterSection';
 import JsonLd from '@/components/JsonLd';
 
-const SITE_URL = 'https://ayodeleayoola.com';
+const SITE_URL = 'https://www.ayodeleayoola.com';
 
 const personSchema = {
   '@context': 'https://schema.org',
