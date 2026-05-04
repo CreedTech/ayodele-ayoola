@@ -47,7 +47,7 @@ export default function AboutPage() {
 
       {/* ── Hero ── */}
       <section
-        className="pg ab-hero-pt flex justify-between"
+        className="pg ab-hero-pt flex flex-col gap-6 md:gap-0 justify-between items-center md:items-start md:flex-row"
         style={{
           paddingTop: 100,
           paddingBottom: 72,
