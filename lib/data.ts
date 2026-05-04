@@ -76,7 +76,7 @@ export const projects = [
     desc: "Full-stack ordering and delivery system built for the Nigerian diaspora in London.",
     tags: ["React", "Node.js", "Stripe", "ExpressJs", "MongoDB", "Tailwind"],
     year: "2026",
-    href: "#",
+    href: "https://www.dammyskitchen.co.uk/",
     featured: true,
     company: "Dammy's Kitchen",
     logo: "FD",
@@ -104,7 +104,7 @@ export const projects = [
     desc: "Cross-platform savings and lending mobile application with rewards system and payments integration.",
     tags: ["Flutter", "Node.js", "MongoDB"],
     year: "2025",
-    href: "",
+    href: "https://play.google.com/store/apps/details?id=com.rentspace.app.android&pcampaignid=web_share",
     featured: true,
     company: "RentSpace",
     logo: "RT",
@@ -247,7 +247,7 @@ export const experience = [
   {
     role: "Software Developer",
     company: "RentSpace Technologies",
-    location: "London, UK",
+    location: "Nigeria",
     period: "Aug 2023 – May 2025",
     stack: ["Flutter", "Next.js", "Node.js", "MongoDB", "Paystack", "Flutterwave"],
     desc:
@@ -321,7 +321,7 @@ export const experience = [
     logo: "AP",
     logoUrl: "https://res.cloudinary.com/dkrutkbjs/image/upload/v1777031534/cropped-aptech-logo-180x180_hwb94c.jpg",
     logoColor: "#383E56",
-    domain: "",
+    domain: "aptech-abeokuta.com.ng",
   },
   {
     role: "Freelance Software Developer",
@@ -334,7 +334,7 @@ export const experience = [
     logo: "FL",
     logoUrl: "https://res.cloudinary.com/dkrutkbjs/image/upload/v1777031534/Upwork-Logo-1_pum3kj.png",
     logoColor: "#111827",
-    domain: "github.com/creedtech",
+    domain: "upwork.com",
   },
 ];
 // export const projects = [
