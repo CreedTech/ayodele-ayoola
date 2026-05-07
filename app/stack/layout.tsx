@@ -5,12 +5,12 @@ export const metadata: Metadata = {
   title: 'Tech Stack - Ayodele Ayoola | React, Next.js, TypeScript, Flutter',
   description:
     'Full technology stack of Ayodele Ayoola: React, Next.js, TypeScript, Node.js, Flutter, React Native, PostgreSQL, MongoDB, AWS, GSAP, Three.js, Docker, GraphQL, Stripe, Paystack, and more.',
-  alternates: { canonical: 'https://www.ayodeleayoola.com/stack' },
+  alternates: { canonical: 'https://ayodeleayoola.com/stack' },
   openGraph: {
     title: 'Tech Stack - Ayodele Ayoola',
     description:
       'Every tool Ayodele reaches for: frontend, backend, mobile, cloud, databases, design, testing, and payments.',
-    url: 'https://www.ayodeleayoola.com/stack',
+    url: 'https://ayodeleayoola.com/stack',
   },
 };
 
@@ -22,13 +22,13 @@ const breadcrumbSchema = {
       '@type': 'ListItem',
       position: 1,
       name: 'Home',
-      item: 'https://www.ayodeleayoola.com',
+      item: 'https://ayodeleayoola.com',
     },
     {
       '@type': 'ListItem',
       position: 2,
       name: 'Tech Stack',
-      item: 'https://www.ayodeleayoola.com/stack',
+      item: 'https://ayodeleayoola.com/stack',
     },
   ],
 };
@@ -36,7 +36,7 @@ const breadcrumbSchema = {
 const skillsSchema = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  '@id': 'https://www.ayodeleayoola.com/stack#skillslist',
+  '@id': 'https://ayodeleayoola.com/stack#skillslist',
   name: "Ayodele Ayoola's Technology Stack",
   description:
     'Complete list of technologies and tools used by Software Developer Ayodele Ayoola',

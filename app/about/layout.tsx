@@ -5,12 +5,12 @@ export const metadata: Metadata = {
   title: 'About - Ayodele Ayoola | Software Developer London',
   description:
     "Ayodele Ayoola's journey from Lagos to London. First Class Honours in Computer Science from Middlesex University, 6+ years building production software at ScanSan, RentSpace, Vanguard Media, and Dowell Research.",
-  alternates: { canonical: 'https://www.ayodeleayoola.com/about' },
+  alternates: { canonical: 'https://ayodeleayoola.com/about' },
   openGraph: {
     title: 'About Ayodele Ayoola - Software Developer',
     description:
       'From Lagos to London. Computer Science First Class Honours, Software Developer with experience across Web3 proptech, fintech, media, and research platforms.',
-    url: 'https://www.ayodeleayoola.com/about',
+    url: 'https://ayodeleayoola.com/about',
     type: 'profile',
   },
   twitter: {
@@ -28,13 +28,13 @@ const breadcrumbSchema = {
       '@type': 'ListItem',
       position: 1,
       name: 'Home',
-      item: 'https://www.ayodeleayoola.com',
+      item: 'https://ayodeleayoola.com',
     },
     {
       '@type': 'ListItem',
       position: 2,
       name: 'About',
-      item: 'https://www.ayodeleayoola.com/about',
+      item: 'https://ayodeleayoola.com/about',
     },
   ],
 };
@@ -42,12 +42,12 @@ const breadcrumbSchema = {
 const profilePageSchema = {
   '@context': 'https://schema.org',
   '@type': 'ProfilePage',
-  '@id': 'https://www.ayodeleayoola.com/about#profilepage',
+  '@id': 'https://ayodeleayoola.com/about#profilepage',
   name: 'About Ayodele Ayoola',
-  url: 'https://www.ayodeleayoola.com/about',
+  url: 'https://ayodeleayoola.com/about',
   mainEntity: {
     '@type': 'Person',
-    '@id': 'https://www.ayodeleayoola.com/#person',
+    '@id': 'https://ayodeleayoola.com/#person',
     name: 'Ayodele Ayoola',
     jobTitle: 'Software Developer',
     description:
