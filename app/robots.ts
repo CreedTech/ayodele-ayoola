@@ -7,8 +7,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: "*",
-        allow: "/",
-        disallow: ["/api/", "/_next/"],
+        allow: ["/", "/_next/static/media/"],
+        disallow: ["/api/", "/_next/static/chunks/", "/_next/static/css/"],
       },
       // Allow AI crawlers explicitly for GEO/AISEO
       { userAgent: "GPTBot", allow: "/" },

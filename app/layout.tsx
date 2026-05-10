@@ -126,13 +126,6 @@ const siteNavigationSchema = {
   '@type': 'ItemList',
   name: 'Site Navigation',
   itemListElement: [
-    {
-      '@type': 'SiteLinksSearchBox',
-      target: {
-        '@type': 'EntryPoint',
-        urlTemplate: `${SITE_URL}/?q={search_term_string}`,
-      },
-    },
     { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
     { '@type': 'ListItem', position: 2, name: 'About', item: `${SITE_URL}/about` },
     { '@type': 'ListItem', position: 3, name: 'Projects', item: `${SITE_URL}/projects` },

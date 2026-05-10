@@ -178,14 +178,6 @@ const graphSchema = {
       inLanguage: 'en-GB',
       copyrightYear: new Date().getFullYear(),
       about: { '@id': `${SITE_URL}/#person` },
-      potentialAction: {
-        '@type': 'SearchAction',
-        target: {
-          '@type': 'EntryPoint',
-          urlTemplate: `${SITE_URL}/?q={search_term_string}`,
-        },
-        'query-input': 'required name=search_term_string',
-      },
     },
     {
       '@type': 'WebPage',
