@@ -23,7 +23,7 @@ Ayodele Ayoola is a Software Developer based in London, UK, with over 6 years of
 - Payments: Stripe, PayPal, Flutterwave, Paystack
 
 ## Work History
-1. Senior Software Developer - ScanSan Properties, London (June 2025 – Present)
+1. Senior Frontend Developer - ScanSan Properties, London (June 2025 – Present)
    Leading frontend of a Web3 property investment platform. Built PAA AI assistant and real-time property analytics. Reduced new feature dev time by 25% via reusable UI architecture.
 
 2. Software Developer (Tech Lead) - RentSpace Technologies, London (Aug 2023 – May 2025)
@@ -35,7 +35,7 @@ Ayodele Ayoola is a Software Developer based in London, UK, with over 6 years of
 4. Software Developer - Dowell Research UK, London (Nov 2021 – Mar 2022)
    Full-stack UX research platform for 500+ enterprise clients. Integrated Stripe and PayPal for multi-currency transactions.
 
-5. Frontend Mobile Developer - FUDAP CO, Remote (Jan 2021 – Oct 2021)
+5. Frontend Mobile Developer (React Native) - FUDAP CO, Remote (Jan 2021 – Oct 2021)
    Food ordering and delivery app with real-time GPS. Reduced cold-start times 60%, boosted repeat orders 25%.
 
 6. Frontend Web Developer - Zummit Africa, Remote (Jul 2020 – Dec 2020)

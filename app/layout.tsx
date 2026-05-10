@@ -4,6 +4,7 @@ import localFont from 'next/font/local';
 import './globals.css';
 import NavStatic from '@/components/NavStatic';
 import GlobalShell from '@/components/GlobalShell';
+import JsonLd from '@/components/JsonLd';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -120,6 +121,26 @@ export const metadata: Metadata = {
   },
 };
 
+const siteNavigationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'Site Navigation',
+  itemListElement: [
+    {
+      '@type': 'SiteLinksSearchBox',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${SITE_URL}/?q={search_term_string}`,
+      },
+    },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+    { '@type': 'ListItem', position: 2, name: 'About', item: `${SITE_URL}/about` },
+    { '@type': 'ListItem', position: 3, name: 'Projects', item: `${SITE_URL}/projects` },
+    { '@type': 'ListItem', position: 4, name: 'Tech Stack', item: `${SITE_URL}/stack` },
+    { '@type': 'ListItem', position: 5, name: 'Contact', item: `${SITE_URL}/contact` },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -136,8 +157,6 @@ export default function RootLayout({
         <link rel="canonical" href={SITE_URL} />
         <meta name="geo.region" content="GB-LND" />
         <meta name="geo.placename" content="London, United Kingdom" />
-        <meta name="geo.position" content="51.5074;-0.1278" />
-        <meta name="ICBM" content="51.5074, -0.1278" />
         <meta name="language" content="English" />
         <meta name="revisit-after" content="3 days" />
         <meta name="rating" content="general" />
@@ -146,7 +165,7 @@ export default function RootLayout({
         <link rel="me" href="https://linkedin.com/in/ayodele-ayoola" />
       </head>
       <body className="antialiased" suppressHydrationWarning>
-        {/* <FontLoader /> */}
+        <JsonLd data={siteNavigationSchema} />
         <NavStatic />
         {children}
         <GlobalShell />
