@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const SITE_URL = "https://ayodeleayoola.com";
+import { SITE_URL } from "@/lib/data";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
@@ -27,6 +27,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${SITE_URL}/stack`,
       lastModified: now,
       changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/cv`,
+      lastModified: now,
+      changeFrequency: "monthly",
       priority: 0.8,
     },
     {
