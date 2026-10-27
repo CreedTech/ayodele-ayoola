@@ -1,5 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useModKey } from "@/lib/use-mod-key";
 
 interface Shortcut {
   key: string;
@@ -11,24 +13,31 @@ interface ShortcutGroup {
   items: Shortcut[];
 }
 
-const SHORTCUTS: ShortcutGroup[] = [
+const GO: Record<string, string> = { h: "/", a: "/about", p: "/projects", s: "/stack", v: "/cv", c: "/contact" };
+const OPEN: Record<string, string> = { g: "https://github.com/creedtech", l: "https://linkedin.com/in/ayodele-ayoola" };
+
+const shortcuts = (mod: string): ShortcutGroup[] => [
   {
-    label: "Navigation",
+    label: "Go to",
     items: [
-      { key: "G", desc: "Open GitHub profile" },
-      { key: "L", desc: "Open LinkedIn profile" },
-      { key: "H", desc: "Go to Home" },
-      { key: "A", desc: "Go to About me" },
-      { key: "S", desc: "Go to Stack" },
-      { key: "W", desc: "Go to Work" },
+      { key: "g h", desc: "Home" },
+      { key: "g a", desc: "About" },
+      { key: "g p", desc: "Projects" },
+      { key: "g s", desc: "Stack" },
+      { key: "g v", desc: "CV" },
+      { key: "g c", desc: "Contact" },
+    ],
+  },
+  {
+    label: "Open",
+    items: [
+      { key: "o g", desc: "GitHub profile" },
+      { key: "o l", desc: "LinkedIn profile" },
     ],
   },
   {
     label: "Terminal",
-    items: [
-      { key: "⌘K", desc: "Open or close the terminal" },
-      { key: "`", desc: "Open or close the terminal" },
-    ],
+    items: [{ key: `${mod === "⌘" ? "⌘" : "Ctrl"} K`, desc: "Open or close the terminal" }],
   },
   {
     label: "General",
@@ -41,15 +50,20 @@ const SHORTCUTS: ShortcutGroup[] = [
 
 export default function ShortcutsPanel() {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+  const mod = useModKey();
+  const leader = useRef<{ key: string; at: number } | null>(null);
+  const SHORTCUTS = shortcuts(mod);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      const tag = (document.activeElement as HTMLElement)?.tagName?.toLowerCase();
-      if (tag === "input" || tag === "textarea") return;
+      const el = document.activeElement as HTMLElement | null;
+      const tag = el?.tagName?.toLowerCase();
+      if (tag === "input" || tag === "textarea" || el?.isContentEditable || e.metaKey || e.ctrlKey || e.altKey) return;
 
       if (e.key === "?") {
         e.preventDefault();
-        setOpen(o => !o);
+        setOpen((o) => !o);
         return;
       }
       if (e.key === "Escape") {
@@ -57,32 +71,25 @@ export default function ShortcutsPanel() {
         return;
       }
 
-      if (open) return;
-
-      switch (e.key.toUpperCase()) {
-        case "G":
-          window.open("https://github.com/creedtech", "_blank");
-          break;
-        case "L":
-          window.open("https://linkedin.com/in/ayodele-ayoola", "_blank");
-          break;
-        case "H":
-          window.location.href = "/";
-          break;
-        case "A":
-          window.location.href = "/about";
-          break;
-        case "S":
-          window.location.href = "/stack";
-          break;
-        case "W":
-          window.location.href = "/#work";
-          break;
+      const key = e.key.toLowerCase();
+      const prev = leader.current;
+      leader.current = null;
+      if (prev && Date.now() - prev.at < 1200) {
+        const map = prev.key === "g" ? GO : prev.key === "o" ? OPEN : null;
+        const target = map?.[key];
+        if (target) {
+          e.preventDefault();
+          setOpen(false);
+          if (target.startsWith("http")) window.open(target, "_blank", "noopener,noreferrer");
+          else router.push(target);
+          return;
+        }
       }
+      if (key === "g" || key === "o") leader.current = { key, at: Date.now() };
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [open]);
+  }, [router]);
 
   if (!open) return null;
 
@@ -169,7 +176,7 @@ export default function ShortcutsPanel() {
             color: "var(--text)",
           }}
         >
-          Keyboard Shortcuts
+          Keyboard shortcuts
         </h2>
 
         {/* Groups */}
@@ -178,9 +185,8 @@ export default function ShortcutsPanel() {
             <div key={group.label}>
               <div
                 style={{
-                  fontSize: 10,
-                  letterSpacing: ".2em",
-                  textTransform: "uppercase",
+                  fontSize: 13,
+                  fontWeight: 500,
                   color: "var(--muted)",
                   marginBottom: 12,
                 }}

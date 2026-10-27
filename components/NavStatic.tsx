@@ -2,6 +2,9 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { CommandLineIcon } from '@hugeicons/core-free-icons';
+import { useModKey } from '@/lib/use-mod-key';
 
 const links = [
   { href: '/about', label: 'About' },
@@ -14,6 +17,7 @@ const links = [
 export default function NavStatic() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
+  const mod = useModKey();
 
   return (
     <>
@@ -91,8 +95,7 @@ export default function NavStatic() {
               padding: '5px 10px',
               color: 'var(--muted)',
               cursor: 'pointer',
-              fontSize: 11,
-              letterSpacing: '.05em',
+              fontSize: 13,
               transition: 'border-color .1s, color .2s',
             }}
             onMouseEnter={(e) => {
@@ -104,20 +107,9 @@ export default function NavStatic() {
               e.currentTarget.style.color = 'var(--muted)';
             }}
           >
-            {/* ⌘ icon */}
-            <svg
-              width="13"
-              height="13"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z" />
-            </svg>
-            <span>` Terminal</span>
+            <HugeiconsIcon icon={CommandLineIcon} size={14} />
+            <span>Terminal</span>
+            <kbd style={{ font: 'inherit', fontSize: 11, opacity: 0.75 }}>{mod === '⌘' ? '⌘K' : 'Ctrl K'}</kbd>
           </button>
 
           <Link
@@ -214,19 +206,8 @@ export default function NavStatic() {
               letterSpacing: '.06em',
             }}
           >
-            <svg
-              width="13"
-              height="13"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z" />
-            </svg>
-            ` Terminal
+            <HugeiconsIcon icon={CommandLineIcon} size={14} />
+            Terminal
           </button>
         </nav>
       )}

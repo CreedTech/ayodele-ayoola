@@ -166,3 +166,125 @@ export function walk(node: FsNode, path: string, visit: (n: FsNode, p: string, d
       .filter((c) => !c.name.startsWith('.'))
       .forEach((c) => walk(c, path === '/' ? `/${c.name}` : `${path}/${c.name}`, visit, depth + 1));
 }
+
+export type FsOp =
+  | { op: 'write'; path: string; content: string }
+  | { op: 'mkdir'; path: string }
+  | { op: 'rm'; path: string }
+  | { op: 'mv'; from: string; to: string }
+  | { op: 'cp'; from: string; to: string };
+
+const JOURNAL_KEY = 'ayoola-terminal-fs';
+
+export const isWritable = (path: string) => path === HOME || path.startsWith(`${HOME}/`) || path === '/tmp' || path.startsWith('/tmp/');
+
+const parentOf = (path: string) => resolve(path, '..');
+const baseOf = (path: string) => path.split('/').filter(Boolean).pop() ?? '';
+
+const clone = (n: FsNode): FsNode => (n.kind === 'dir' ? { ...n, children: n.children.map(clone) } : { ...n });
+
+export type FsError = string | null;
+
+export function applyOp(root: FsDir, op: FsOp): FsError {
+  const dirAt = (p: string) => {
+    const d = lookup(root, p);
+    return d?.kind === 'dir' ? d : null;
+  };
+  switch (op.op) {
+    case 'write': {
+      const parent = dirAt(parentOf(op.path));
+      if (!parent) return 'No such file or directory';
+      const existing = parent.children.find((c) => c.name === baseOf(op.path));
+      if (existing?.kind === 'dir') return 'Is a directory';
+      if (existing) {
+        existing.content = op.content;
+        existing.ref = undefined;
+        existing.binary = false;
+      } else parent.children.push({ kind: 'file', name: baseOf(op.path), content: op.content });
+      return null;
+    }
+    case 'mkdir': {
+      const parent = dirAt(parentOf(op.path));
+      if (!parent) return 'No such file or directory';
+      if (parent.children.some((c) => c.name === baseOf(op.path))) return 'File exists';
+      parent.children.push({ kind: 'dir', name: baseOf(op.path), children: [] });
+      return null;
+    }
+    case 'rm': {
+      const parent = dirAt(parentOf(op.path));
+      const i = parent?.children.findIndex((c) => c.name === baseOf(op.path)) ?? -1;
+      if (!parent || i < 0) return 'No such file or directory';
+      parent.children.splice(i, 1);
+      return null;
+    }
+    case 'mv':
+    case 'cp': {
+      const src = lookup(root, op.from);
+      if (!src) return 'No such file or directory';
+      const targetDir = dirAt(op.to);
+      const dest = targetDir ? `${op.to === '/' ? '' : op.to}/${src.name}` : op.to;
+      const parent = dirAt(parentOf(dest));
+      if (!parent) return 'No such file or directory';
+      if (dest === op.from || dest.startsWith(`${op.from}/`)) return 'cannot move a folder into itself';
+      const copy = clone(src);
+      copy.name = baseOf(dest);
+      const existing = parent.children.findIndex((c) => c.name === copy.name);
+      if (existing >= 0) parent.children.splice(existing, 1);
+      parent.children.push(copy);
+      if (op.op === 'mv') {
+        const srcParent = dirAt(parentOf(op.from))!;
+        srcParent.children.splice(srcParent.children.indexOf(src), 1);
+      }
+      return null;
+    }
+  }
+}
+
+export function loadJournal(): FsOp[] {
+  try {
+    const raw = window.localStorage.getItem(JOURNAL_KEY);
+    return raw ? (JSON.parse(raw) as FsOp[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveJournal(ops: FsOp[]) {
+  try {
+    window.localStorage.setItem(JOURNAL_KEY, JSON.stringify(ops.slice(-500)));
+  } catch {}
+}
+
+export function createFs(commandNames: string[]) {
+  const fresh = () => {
+    const root = buildFs(commandNames);
+    root.children.push({ kind: 'dir', name: 'tmp', children: [] });
+    return root;
+  };
+  let root = fresh();
+  let journal = typeof window === 'undefined' ? [] : loadJournal();
+  journal = journal.filter((op) => applyOp(root, op) === null);
+  return {
+    get root() {
+      return root;
+    },
+    apply(op: FsOp): FsError {
+      const paths = op.op === 'mv' || op.op === 'cp' ? [op.to, ...(op.op === 'mv' ? [op.from] : [])] : [op.path];
+      if (paths.some((p) => !isWritable(p))) return 'Permission denied';
+      const error = applyOp(root, op);
+      if (!error) {
+        journal.push(op);
+        saveJournal(journal);
+      }
+      return error;
+    },
+    reset() {
+      root = fresh();
+      journal = [];
+      saveJournal(journal);
+    },
+    get changes() {
+      return journal.length;
+    },
+  };
+}

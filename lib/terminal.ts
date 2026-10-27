@@ -13,10 +13,12 @@ import {
   stackCategories,
   yearsLabel,
 } from '@/lib/data';
+import { THEMES } from '@/lib/terminal-themes';
 import {
   ALIASES,
   HOME,
-  buildFs,
+  createFs,
+  isWritable,
   dirForPage,
   display,
   globToRegExp,
@@ -56,6 +58,9 @@ export type Ctx = {
   history: string[];
   setCwd: (path: string) => void;
   setEnv: (key: string, value: string) => void;
+  edit: (path: string, mode: 'nano' | 'vim') => void;
+  prefs: { theme: string; font: number };
+  setPref: (key: 'theme' | 'font', value: string | number) => void;
   navigate: (path: string) => void;
   open: (url: string) => void;
   copy: (text: string) => void;
@@ -133,8 +138,6 @@ const toLines = (blocks: Block[]): string[] =>
 
 const failed = (blocks: Block[]) => blocks.some((b) => (b.t === 'text' || b.t === 'lines') && b.tone === 'error');
 
-const readOnly = (cmd: string): Run => (args) => [err(`${cmd}: ${args.find((a) => !a.startsWith('-')) ?? ''}: Read-only file system`.replace(': :', ':'))];
-
 const projectCard = (key: string): Block[] => {
   const p = projects.find((x) => slug(x.title) === key);
   if (!p) return [];
@@ -159,8 +162,34 @@ const roleCard = (key: string): Block[] => {
 };
 
 const COMMANDS: Command[] = [];
-let FS: FsDir;
-const fs = () => (FS ??= buildFs(COMMANDS.map((c) => c.name)));
+let STORE: ReturnType<typeof createFs> | undefined;
+const store = () => (STORE ??= createFs(COMMANDS.map((c) => c.name)));
+const fs = () => store().root;
+
+const writeOp = (cmd: string, target: string, op: Parameters<ReturnType<typeof createFs>['apply']>[0]): Block[] => {
+  const error = store().apply(op);
+  return error ? [err(`${cmd}: ${target}: ${error}`)] : [];
+};
+
+const editor = (mode: 'nano' | 'vim'): Run => ([q], ctx) => {
+  if (!q) return [err(`${mode}: give it a file name, for example ${mode} notes.txt`)];
+  const path = resolve(ctx.cwd, q);
+  const node = lookup(fs(), path);
+  if (node?.kind === 'dir') return [err(`${mode}: ${q}: Is a directory`)];
+  if (node?.kind === 'file' && node.binary) return [err(`${mode}: ${q}: binary file, try open ${q}`)];
+  if (!node && !lookup(fs(), resolve(path, '..'))) return [err(`${mode}: ${q}: No such file or directory`)];
+  ctx.edit(path, mode);
+  return [];
+};
+
+export function readFile(path: string): string | null {
+  const n = lookup(fs(), path);
+  return n?.kind === 'file' && !n.binary ? n.content : null;
+}
+
+export function saveFile(path: string, content: string): string | null {
+  return store().apply({ op: 'write', path, content });
+}
 
 const readTargets = (cmd: string, args: string[], ctx: Ctx, stdin?: string[]): { name: string; text: string[] }[] | Block[] => {
   if (!args.length) return stdin ? [{ name: '', text: stdin }] : [err(`${cmd}: missing file operand`)];
@@ -419,13 +448,13 @@ COMMANDS.push(
   { name: 'pwd', group: 'unix', summary: 'Print the current folder', run: (_, ctx) => [{ t: 'text', text: ctx.cwd }] },
   {
     name: 'cat',
-    usage: 'cat <file...>',
+    usage: 'cat [-n] <file...>',
     group: 'unix',
     summary: 'Print files',
     paths: true,
     run: (args, ctx, stdin) => {
-      const { rest } = parseFlags(args);
-      if (rest.length === 1 && !stdin) {
+      const { flags, rest } = parseFlags(args);
+      if (rest.length === 1 && !stdin && !flags.has('n')) {
         const node = lookup(fs(), resolve(ctx.cwd, rest[0]));
         if (node?.kind === 'file' && node.ref) {
           const card = node.ref.type === 'project' ? projectCard(node.ref.key) : roleCard(node.ref.key);
@@ -434,7 +463,8 @@ COMMANDS.push(
       }
       const r = readTargets('cat', rest, ctx, stdin);
       if (isBlocks(r)) return r;
-      return [lines((r as { text: string[] }[]).flatMap((f) => f.text))];
+      const all = (r as { text: string[] }[]).flatMap((f) => f.text);
+      return [lines(flags.has('n') ? all.map((l, i) => `${String(i + 1).padStart(6)}  ${l}`) : all)];
     },
   },
   { name: 'less', group: 'hidden', summary: '', paths: true, run: (a, c, s) => COMMANDS.find((x) => x.name === 'cat')!.run(a, c, s) },
@@ -716,22 +746,162 @@ COMMANDS.push(
   { name: 'ping', group: 'hidden', summary: '', run: (a) => [err(`ping: cannot resolve ${a[0] ?? ''}: network access is disabled in this shell`)] },
   { name: 'curl', group: 'hidden', summary: '', run: () => [err('curl: network access is disabled in this shell. Try open <url>.')] },
   { name: 'wget', group: 'hidden', summary: '', run: () => [err('wget: network access is disabled in this shell. Try open <url>.')] },
-  { name: 'touch', group: 'hidden', summary: '', run: readOnly('touch') },
-  { name: 'mkdir', group: 'hidden', summary: '', run: readOnly('mkdir') },
-  { name: 'rmdir', group: 'hidden', summary: '', run: readOnly('rmdir') },
-  { name: 'mv', group: 'hidden', summary: '', run: readOnly('mv') },
-  { name: 'cp', group: 'hidden', summary: '', run: readOnly('cp') },
-  { name: 'chmod', group: 'hidden', summary: '', run: readOnly('chmod') },
-  { name: 'ln', group: 'hidden', summary: '', run: readOnly('ln') },
+  {
+    name: 'touch',
+    usage: 'touch <file>',
+    group: 'unix',
+    summary: 'Create an empty file',
+    paths: true,
+    run: (args, ctx) =>
+      parseFlags(args).rest.flatMap((a) => {
+        const path = resolve(ctx.cwd, a);
+        return lookup(fs(), path) ? [] : writeOp('touch', a, { op: 'write', path, content: '' });
+      }),
+  },
+  {
+    name: 'mkdir',
+    usage: 'mkdir [-p] <dir>',
+    group: 'unix',
+    summary: 'Make a folder',
+    paths: true,
+    run: (args, ctx) => {
+      const { flags, rest } = parseFlags(args);
+      if (!rest.length) return [err('usage: mkdir [-p] directory ...')];
+      return rest.flatMap((a) => {
+        const path = resolve(ctx.cwd, a);
+        if (!flags.has('p')) return writeOp('mkdir', a, { op: 'mkdir', path });
+        const parts = path.split('/').filter(Boolean);
+        for (let i = 1; i <= parts.length; i++) {
+          const p = `/${parts.slice(0, i).join('/')}`;
+          if (!lookup(fs(), p)) {
+            const out = writeOp('mkdir', a, { op: 'mkdir', path: p });
+            if (out.length) return out;
+          }
+        }
+        return [];
+      });
+    },
+  },
   {
     name: 'rm',
+    usage: 'rm [-rf] <path>',
+    group: 'unix',
+    summary: 'Remove files (only in your copy)',
+    paths: true,
+    run: (args, ctx) => {
+      const { flags, rest } = parseFlags(args);
+      if (flags.has('r') && rest.some((a) => ['/', '~', '/home'].includes(a) || resolve(ctx.cwd, a) === HOME))
+        return [err('rm: refusing to remove the whole home folder. This one is protected.')];
+      return rest.flatMap((a) => {
+        const path = resolve(ctx.cwd, a);
+        const node = lookup(fs(), path);
+        if (!node) return flags.has('f') ? [] : [err(`rm: ${a}: No such file or directory`)];
+        if (node.kind === 'dir' && !flags.has('r')) return [err(`rm: ${a}: is a directory`)];
+        return writeOp('rm', a, { op: 'rm', path });
+      });
+    },
+  },
+  {
+    name: 'rmdir',
     group: 'hidden',
     summary: '',
-    run: (args) => (args.includes('-rf') && args.some((a) => a === '/' || a === '~' || a === '*') ? [err('rm: nice try. This file system is read-only, and so is my career.')] : readOnly('rm')(args, {} as Ctx)),
+    paths: true,
+    run: (args, ctx) =>
+      args.flatMap((a) => {
+        const path = resolve(ctx.cwd, a);
+        const node = lookup(fs(), path);
+        if (!node || node.kind !== 'dir') return [err(`rmdir: ${a}: Not a directory`)];
+        if (node.children.length) return [err(`rmdir: ${a}: Directory not empty`)];
+        return writeOp('rmdir', a, { op: 'rm', path });
+      }),
   },
-  { name: 'vim', group: 'hidden', summary: '', run: (a) => [err(`vim: ${a[0] ?? 'file'} is on a read-only file system. Good news: you never have to work out how to quit.`)] },
-  { name: 'nano', group: 'hidden', summary: '', run: readOnly('nano') },
-  { name: 'emacs', group: 'hidden', summary: '', run: readOnly('emacs') },
+  {
+    name: 'mv',
+    usage: 'mv <from> <to>',
+    group: 'unix',
+    summary: 'Move or rename',
+    paths: true,
+    run: (args, ctx) => {
+      const { rest } = parseFlags(args);
+      if (rest.length < 2) return [err('usage: mv source target')];
+      return writeOp('mv', rest[0], { op: 'mv', from: resolve(ctx.cwd, rest[0]), to: resolve(ctx.cwd, rest[1]) });
+    },
+  },
+  {
+    name: 'cp',
+    usage: 'cp [-r] <from> <to>',
+    group: 'unix',
+    summary: 'Copy files',
+    paths: true,
+    run: (args, ctx) => {
+      const { flags, rest } = parseFlags(args);
+      if (rest.length < 2) return [err('usage: cp [-r] source target')];
+      const src = lookup(fs(), resolve(ctx.cwd, rest[0]));
+      if (src?.kind === 'dir' && !flags.has('r')) return [err(`cp: ${rest[0]} is a directory (not copied)`)];
+      return writeOp('cp', rest[0], { op: 'cp', from: resolve(ctx.cwd, rest[0]), to: resolve(ctx.cwd, rest[1]) });
+    },
+  },
+  {
+    name: 'tee',
+    usage: 'tee [-a] <file>',
+    group: 'unix',
+    summary: 'Write piped text to a file and show it',
+    paths: true,
+    run: (args, ctx, stdin = []) => {
+      const { flags, rest } = parseFlags(args);
+      for (const a of rest) {
+        const path = resolve(ctx.cwd, a);
+        const before = flags.has('a') ? readFile(path) : null;
+        const content = before ? `${before}\n${stdin.join('\n')}` : stdin.join('\n');
+        const out = writeOp('tee', a, { op: 'write', path, content });
+        if (out.length) return out;
+      }
+      return [lines(stdin)];
+    },
+  },
+  { name: 'chmod', group: 'hidden', summary: '', run: () => [] },
+  { name: 'ln', group: 'hidden', summary: '', run: () => [err('ln: links are not supported here')] },
+  { name: 'nano', usage: 'nano <file>', group: 'unix', summary: 'Edit a file (Ctrl+O saves, Ctrl+X exits)', paths: true, run: editor('nano') },
+  { name: 'vim', usage: 'vim <file>', group: 'unix', summary: 'Edit a file the vim way (:wq saves and quits)', paths: true, run: editor('vim') },
+  { name: 'emacs', group: 'hidden', summary: '', run: () => [{ t: 'text', text: 'emacs is not installed here. nano and vim are.', tone: 'muted' }] },
+  {
+    name: 'restore',
+    group: 'unix',
+    summary: 'Undo every change you made to the files',
+    run: (_, ctx) => {
+      const n = store().changes;
+      store().reset();
+      ctx.setCwd(HOME);
+      return [ok(n ? `Restored the original files (${n} ${n === 1 ? 'change' : 'changes'} undone).` : 'Nothing to restore.')];
+    },
+  },
+  {
+    name: 'theme',
+    usage: 'theme [name]',
+    group: 'unix',
+    summary: `Change the colours (${Object.keys(THEMES).join(', ')})`,
+    args: () => Object.keys(THEMES),
+    run: ([q], ctx) => {
+      if (!q) return [{ t: 'chips', label: `Current: ${ctx.prefs.theme}`, items: Object.keys(THEMES).map((k) => ({ label: k, run: `theme ${k}` })) }];
+      if (!THEMES[q]) return [err(`theme: unknown theme ${q}`)];
+      ctx.setPref('theme', q);
+      return [ok(`Theme set to ${q}`)];
+    },
+  },
+  {
+    name: 'font',
+    usage: 'font [11-20]',
+    group: 'unix',
+    summary: 'Change the text size',
+    args: () => ['12', '13', '14', '15', '16', '18'],
+    run: ([q], ctx) => {
+      if (!q) return [{ t: 'text', text: `Font size ${ctx.prefs.font}px. Use font 15 to change it.` }];
+      const n = Number(q);
+      if (!Number.isFinite(n) || n < 11 || n > 20) return [err('font: pick a size from 11 to 20')];
+      ctx.setPref('font', n);
+      return [ok(`Font size set to ${n}px`)];
+    },
+  },
   {
     name: 'sudo',
     group: 'hidden',
@@ -795,11 +965,20 @@ export function run(line: string, ctx: Ctx): Block[] {
     const joiner = parts[i - 1];
     if (joiner === ';') skip = false;
     if (!segment || skip) continue;
-    const stages = segment.split('|').map((s) => s.trim()).filter(Boolean);
+    const redirect = segment.match(/^(.*?)(>>?)\s*(\S+)\s*$/);
+    const pipeline = redirect ? redirect[1] : segment;
+    const stages = pipeline.split('|').map((s) => s.trim()).filter(Boolean);
     let blocks: Block[] = [];
     for (let s = 0; s < stages.length; s++) {
       blocks = runOne(stages[s], ctx, s === 0 ? undefined : toLines(blocks));
       if (failed(blocks)) break;
+    }
+    if (redirect && !failed(blocks)) {
+      const path = resolve(ctx.cwd, redirect[3]);
+      const existing = redirect[2] === '>>' ? readFile(path) : null;
+      const text = toLines(blocks).join('\n');
+      const error = store().apply({ op: 'write', path, content: existing ? `${existing}\n${text}` : text });
+      blocks = error ? [err(`zsh: ${error}: ${redirect[3]}`)] : [];
     }
     out.push(...blocks);
     if (parts[i + 1] === '&&' && failed(blocks)) skip = true;
@@ -848,7 +1027,7 @@ export function complete(line: string, cwd: string): string[] {
 
 export const homeFor = (pathname: string) => dirForPage(fs(), pathname);
 export const pageOf = (path: string) => pageFor(fs(), path);
-export { HOME, display };
+export { HOME, display, isWritable };
 export type { FsFile };
 
 export const STARTERS = ['ls', 'cat README.md', 'neofetch', 'git log', 'tree ~/projects', 'grep payments', 'ls ~/projects | grep -c md', 'cd projects'];
