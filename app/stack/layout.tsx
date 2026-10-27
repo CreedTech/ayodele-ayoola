@@ -1,70 +1,22 @@
 import type { Metadata } from 'next';
 import JsonLd from '@/components/JsonLd';
 import Breadcrumb from '@/components/Breadcrumb';
+import { SITE_URL, personal, stackCategories } from '@/lib/data';
 
 export const metadata: Metadata = {
-  title: 'Tech Stack - Ayodele Ayoola | React, Next.js, TypeScript, Flutter',
-  description:
-    'Full technology stack of Ayodele Ayoola: React, Next.js, TypeScript, Node.js, Flutter, React Native, PostgreSQL, MongoDB, AWS, GSAP, Three.js, Docker, GraphQL, Stripe, Paystack, and more.',
-  alternates: { canonical: 'https://ayodeleayoola.com/stack' },
+  title: `Tech Stack - ${personal.name} | React, Next.js, TypeScript, Flutter`,
+  description: `Technology stack of ${personal.name}: ${personal.headline}, PostgreSQL, PostGIS, Redis, MapLibre GL, LangChain, Docker, GCP and more.`,
+  alternates: { canonical: `${SITE_URL}/stack` },
   openGraph: {
-    title: 'Tech Stack - Ayodele Ayoola | Software Developer',
-    description:
-      'Every tool Ayodele reaches for: frontend, backend, mobile, cloud, databases, design, testing, and payments.',
-    url: 'https://ayodeleayoola.com/stack',
+    title: `Tech Stack - ${personal.name} | ${personal.title}`,
+    description: `Tools ${personal.name} uses across ${stackCategories.map((c) => c.label.toLowerCase()).join(', ')}.`,
+    url: `${SITE_URL}/stack`,
   },
 };
 
-const SITE_URL = 'https://ayodeleayoola.com';
-
-const skills = [
-  // Frontend
-  { name: 'React', category: 'Frontend' },
-  { name: 'Next.js', category: 'Frontend' },
-  { name: 'TypeScript', category: 'Frontend' },
-  { name: 'JavaScript (ES6+)', category: 'Frontend' },
-  { name: 'Redux Toolkit', category: 'Frontend' },
-  { name: 'Tailwind CSS', category: 'Frontend' },
-  { name: 'GSAP', category: 'Frontend' },
-  { name: 'Three.js', category: 'Frontend' },
-  { name: 'Framer Motion', category: 'Frontend' },
-  { name: 'HTML5 / CSS3', category: 'Frontend' },
-  // Backend
-  { name: 'Node.js', category: 'Backend' },
-  { name: 'Express.js', category: 'Backend' },
-  { name: 'Python', category: 'Backend' },
-  { name: 'REST APIs', category: 'Backend' },
-  { name: 'GraphQL', category: 'Backend' },
-  { name: 'WebSockets', category: 'Backend' },
-  // Databases
-  { name: 'PostgreSQL', category: 'Database' },
-  { name: 'MongoDB', category: 'Database' },
-  { name: 'Redis', category: 'Database' },
-  { name: 'Firebase / Firestore', category: 'Database' },
-  // Mobile
-  { name: 'Flutter', category: 'Mobile' },
-  { name: 'React Native', category: 'Mobile' },
-  // Cloud & DevOps
-  { name: 'AWS (EC2, S3, Lambda)', category: 'Cloud' },
-  { name: 'Docker', category: 'Cloud' },
-  { name: 'CI/CD Pipelines', category: 'Cloud' },
-  { name: 'Vercel', category: 'Cloud' },
-  // Testing
-  { name: 'Jest', category: 'Testing' },
-  { name: 'React Testing Library', category: 'Testing' },
-  { name: 'Cypress', category: 'Testing' },
-  { name: 'Playwright', category: 'Testing' },
-  // Design
-  { name: 'Figma', category: 'Design' },
-  { name: 'Storybook', category: 'Design' },
-  { name: 'Design Systems', category: 'Design' },
-  { name: 'WCAG Accessibility', category: 'Design' },
-  // Payments
-  { name: 'Stripe', category: 'Payments' },
-  { name: 'PayPal', category: 'Payments' },
-  { name: 'Flutterwave', category: 'Payments' },
-  { name: 'Paystack', category: 'Payments' },
-];
+const skills = stackCategories.flatMap((c) =>
+  c.skills.map((name) => ({ name, category: c.label })),
+);
 
 const stackGraph = {
   '@context': 'https://schema.org',
@@ -88,7 +40,7 @@ const stackGraph = {
       url: `${SITE_URL}/stack`,
       name: "Ayodele Ayoola's Tech Stack - React, Next.js, TypeScript, Flutter",
       description:
-        'Complete technology stack of Software Developer Ayodele Ayoola, covering frontend, backend, mobile, cloud, databases, design, testing, and payment technologies.',
+        `Technology stack of ${personal.title} ${personal.name}.`,
       isPartOf: { '@id': `${SITE_URL}/#website` },
       author: { '@id': `${SITE_URL}/#person` },
       inLanguage: 'en-GB',
@@ -100,7 +52,7 @@ const stackGraph = {
       '@id': `${SITE_URL}/stack#skillslist`,
       name: "Ayodele Ayoola's Technology Stack",
       description:
-        'Complete list of technologies and tools used by Software Developer Ayodele Ayoola',
+        `Technologies and tools used by ${personal.title} ${personal.name}`,
       numberOfItems: skills.length,
       itemListElement: skills.map((skill, i) => ({
         '@type': 'ListItem',

@@ -3,12 +3,12 @@ import JsonLd from '@/components/JsonLd';
 import Breadcrumb from '@/components/Breadcrumb';
 
 export const metadata: Metadata = {
-  title: 'Contact - Hire Ayodele Ayoola | Software Developer London',
+  title: 'Contact - Hire Ayodele Ayoola | Software Engineer London',
   description:
-    'Get in touch with Ayodele Ayoola, Software Developer based in London. Available for software development roles, freelance projects, and technical consulting. Email: ayodeleayoolaoke4@gmail.com',
+    'Get in touch with Ayodele Ayoola, Software Engineer based in London. Available for software development roles, freelance projects, and technical consulting. Email: ayodeleayoolaoke4@gmail.com',
   alternates: { canonical: 'https://ayodeleayoola.com/contact' },
   openGraph: {
-    title: 'Contact Ayodele Ayoola - Hire a Software Developer',
+    title: 'Contact Ayodele Ayoola - Hire a Software Engineer',
     description:
       'Available for engineering roles, freelance projects, and consulting. London-based, working globally across the UK, Europe, and North America.',
     url: 'https://ayodeleayoola.com/contact',
@@ -37,9 +37,9 @@ const contactGraph = {
       '@type': 'ContactPage',
       '@id': `${SITE_URL}/contact#page`,
       url: `${SITE_URL}/contact`,
-      name: 'Contact Ayodele Ayoola - Hire a Software Developer',
+      name: 'Contact Ayodele Ayoola - Hire a Software Engineer',
       description:
-        'Contact Ayodele Ayoola, Software Developer based in London, UK. Available for engineering roles, freelance projects, and technical consulting.',
+        'Contact Ayodele Ayoola, Software Engineer based in London, UK. Available for engineering roles, freelance projects, and technical consulting.',
       isPartOf: { '@id': `${SITE_URL}/#website` },
       author: { '@id': `${SITE_URL}/#person` },
       inLanguage: 'en-GB',
@@ -62,7 +62,7 @@ const contactGraph = {
         name: 'Ayodele Ayoola',
         email: 'ayodeleayoolaoke4@gmail.com',
         telephone: '+447551113208',
-        jobTitle: 'Software Developer',
+        jobTitle: 'Software Engineer',
         url: SITE_URL,
         contactPoint: {
           '@type': 'ContactPoint',
@@ -79,7 +79,7 @@ const contactGraph = {
         },
         seeks: {
           '@type': 'Demand',
-          name: 'Software Developer opportunities',
+          name: 'Software Engineer opportunities',
           description:
             'Ayodele Ayoola is actively seeking software development roles, freelance projects, and technical consulting engagements in London and remotely.',
           eligibleRegion: [

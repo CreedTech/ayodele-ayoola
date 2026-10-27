@@ -1,23 +1,19 @@
 import type { Metadata } from 'next';
 import JsonLd from '@/components/JsonLd';
 import Breadcrumb from '@/components/Breadcrumb';
-import { projects } from '@/lib/data';
+import { SITE_URL, personal, projects } from '@/lib/data';
 
 export const metadata: Metadata = {
-  title: "Projects - Ayodele Ayoola | Things I've Built",
-  description:
-    'All projects by Ayodele Ayoola - AI assistants, savings apps, high-traffic media platforms, fintech systems, and more. Built with React, Next.js, Flutter, and Node.js.',
-  alternates: { canonical: 'https://ayodeleayoola.com/projects' },
+  title: `Projects - ${personal.name} | Things I've Built`,
+  description: `${projects.length} projects by ${personal.name}: property intelligence maps, a property marketplace, savings and lending apps, a news platform with 5M+ monthly users, and open-source tools. Built with React, Next.js, Flutter and Node.js.`,
+  alternates: { canonical: `${SITE_URL}/projects` },
   openGraph: {
-    title: 'Projects - Ayodele Ayoola | Software Developer',
-    description:
-      'Things built by Ayodele Ayoola - from AI property assistants to apps serving 5M+ users. React, Next.js, Flutter, Node.js.',
-    url: 'https://ayodeleayoola.com/projects',
+    title: `Projects - ${personal.name} | ${personal.title}`,
+    description: `Things built by ${personal.name}, from property intelligence maps to apps serving 5M+ users. React, Next.js, Flutter, Node.js.`,
+    url: `${SITE_URL}/projects`,
     type: 'website',
   },
 };
-
-const SITE_URL = 'https://ayodeleayoola.com';
 
 function getAppType(tags: string[]) {
   const t = tags.join(' ').toLowerCase();
@@ -60,7 +56,7 @@ const projectsGraph = {
       '@id': `${SITE_URL}/projects#list`,
       name: 'Software Projects by Ayodele Ayoola',
       description:
-        'All software projects built by Software Developer Ayodele Ayoola',
+        `All software projects built by ${personal.title} ${personal.name}`,
       numberOfItems: projects.filter((p) => p.href).length,
       itemListElement: projects
         .filter((p) => p.href)
@@ -84,11 +80,11 @@ const projectsGraph = {
               p.tags.includes('Flutter') || p.tags.includes('React Native')
                 ? 'iOS, Android'
                 : 'Web',
-            datePublished: `${p.year}-01-01`,
+            ...(p.year ? { datePublished: `${p.year}-01-01` } : {}),
             creator: { '@id': `${SITE_URL}/#person` },
             author: { '@id': `${SITE_URL}/#person` },
             keywords: p.tags.join(', '),
-            ...(p.company !== 'Personal Project'
+            ...(p.company !== 'Personal Project' && p.company !== 'Open Source'
               ? {
                   producer: {
                     '@type': 'Organization',

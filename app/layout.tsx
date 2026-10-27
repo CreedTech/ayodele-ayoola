@@ -5,6 +5,7 @@ import './globals.css';
 import NavStatic from '@/components/NavStatic';
 import GlobalShell from '@/components/GlobalShell';
 import JsonLd from '@/components/JsonLd';
+import { SITE_URL, personal, yearsLabel } from '@/lib/data';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -23,11 +24,9 @@ const clashDisplay = localFont({
   display: 'swap',
 });
 
-const SITE_URL = 'https://ayodeleayoola.com';
-const FULL_NAME = 'Ayodele Ayoola';
-const TITLE = 'Ayodele Ayoola - Software Developer, London';
-const DESCRIPTION =
-  'Software Developer with 6+ years building high-performance web, mobile, and full-stack applications. React, Next.js, TypeScript, Flutter expert based in London, UK. First Class Honours, Middlesex University.';
+const FULL_NAME = personal.name;
+const TITLE = `${personal.name} - ${personal.title}, London`;
+const DESCRIPTION = `${personal.title} with ${yearsLabel} building web, mobile and full-stack products with React, Next.js, TypeScript, Node.js and Flutter. Based in London. First-Class Honours, Middlesex University.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -38,7 +37,7 @@ export const metadata: Metadata = {
   description: DESCRIPTION,
   keywords: [
     'Ayodele Ayoola',
-    'Software Developer London',
+    'Software Engineer London',
     'Frontend Engineer London',
     'React Developer London',
     'Next.js Developer',
@@ -47,7 +46,7 @@ export const metadata: Metadata = {
     'Flutter Developer',
     'Software Engineer for hire',
     'React Next.js TypeScript developer',
-    'Web3 developer',
+    'Flutter Developer London',
     'Node.js developer London',
     'UI Engineer',
     'Performance engineer',
@@ -58,7 +57,7 @@ export const metadata: Metadata = {
     'RentSpace',
     'ScanSan',
     'Vanguard Media developer',
-    'Middlesex University Computer Science',
+    'Middlesex University',
   ],
   authors: [{ name: FULL_NAME, url: SITE_URL }],
   creator: FULL_NAME,
@@ -89,7 +88,7 @@ export const metadata: Metadata = {
         url: `${SITE_URL}/og-image.JPG`,
         width: 1200,
         height: 630,
-        alt: `${FULL_NAME} - Software Developer`,
+        alt: `${FULL_NAME} - ${personal.title}`,
       },
     ],
   },
@@ -97,7 +96,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: TITLE,
     description: DESCRIPTION,
-    creator: '@ayodeleayoola',
+    creator: personal.twitterHandle,
     images: [`${SITE_URL}/og-image.JPG`],
   },
   icons: {
@@ -147,7 +146,6 @@ export default function RootLayout({
           href="https://api.fontshare.com"
           crossOrigin="anonymous"
         />
-        <link rel="canonical" href={SITE_URL} />
         <meta name="geo.region" content="GB-LND" />
         <meta name="geo.placename" content="London, United Kingdom" />
         <meta name="language" content="English" />

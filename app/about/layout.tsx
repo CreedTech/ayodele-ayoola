@@ -1,27 +1,33 @@
 import type { Metadata } from 'next';
 import JsonLd from '@/components/JsonLd';
 import Breadcrumb from '@/components/Breadcrumb';
+import {
+  SITE_URL,
+  personal,
+  experience,
+  education,
+  allSkills,
+  yearsLabel,
+} from '@/lib/data';
+
+const [degree] = education;
+const companies = experience.map((e) => e.company).join(', ');
 
 export const metadata: Metadata = {
-  title: 'About - Ayodele Ayoola | Software Developer London',
-  description:
-    "Ayodele Ayoola's journey from Lagos to London. First Class Honours in Computer Science from Middlesex University, 6+ years building production software at ScanSan, RentSpace, Vanguard Media, and Dowell Research.",
-  alternates: { canonical: 'https://ayodeleayoola.com/about' },
+  title: `About - ${personal.name} | ${personal.title} London`,
+  description: `${personal.name}, ${personal.title} in London. ${degree.grade} from ${degree.school}, ${yearsLabel} building production software at ${companies}.`,
+  alternates: { canonical: `${SITE_URL}/about` },
   openGraph: {
-    title: 'About Ayodele Ayoola - Software Developer',
-    description:
-      'From Lagos to London. Computer Science First Class Honours. Software Developer with experience across Web3 PropTech, FinTech, media, and research platforms.',
-    url: 'https://ayodeleayoola.com/about',
+    title: `About ${personal.name} - ${personal.title}`,
+    description: `From Lagos to London. ${degree.grade}, ${degree.school}. ${personal.title} across PropTech, FinTech, media and research.`,
+    url: `${SITE_URL}/about`,
     type: 'profile',
   },
   twitter: {
-    title: 'About Ayodele Ayoola - Software Developer',
-    description:
-      'The story behind the code. Lagos to London, 6+ years shipping products people love.',
+    title: `About ${personal.name} - ${personal.title}`,
+    description: `Lagos to London, ${yearsLabel} shipping web and mobile products.`,
   },
 };
-
-const SITE_URL = 'https://ayodeleayoola.com';
 
 const aboutGraph = {
   '@context': 'https://schema.org',
@@ -44,100 +50,40 @@ const aboutGraph = {
       '@id': `${SITE_URL}/about#page`,
       url: `${SITE_URL}/about`,
       name: 'About Ayodele Ayoola',
-      description:
-        'The story of Ayodele Ayoola - Software Developer who moved from Lagos to London, earned a First Class degree in Computer Science, and built software for millions of users.',
+      description: `The story of ${personal.name}, ${personal.title}, who moved from Lagos to London and earned a ${degree.grade} degree from ${degree.school}.`,
       isPartOf: { '@id': `${SITE_URL}/#website` },
       author: { '@id': `${SITE_URL}/#person` },
       inLanguage: 'en-GB',
       breadcrumb: { '@id': `${SITE_URL}/about#breadcrumb` },
       speakable: {
         '@type': 'SpeakableSpecification',
-        cssSelector: ['h1', 'h2', '.about-summary', '.bio-text'],
+        cssSelector: ['h1', 'h2'],
       },
       mainEntity: {
         '@type': 'Person',
         '@id': `${SITE_URL}/#person`,
-        name: 'Ayodele Ayoola',
-        jobTitle: 'Software Developer',
-        description:
-          'Software Developer with 6+ years experience. First Class Honours in Computer Science, Middlesex University London. Specialising in React, Next.js, TypeScript, Flutter, and Node.js. Currently Senior Frontend Engineer at ScanSan Properties, London.',
-        workLocation: { '@type': 'Place', name: 'London, United Kingdom' },
+        name: personal.name,
+        jobTitle: personal.title,
+        description: `${personal.title} with ${yearsLabel} of experience. ${degree.grade}, ${degree.degree}, ${degree.school}. Currently ${experience[0].role} at ${experience[0].company}, London.`,
+        workLocation: { '@type': 'Place', name: personal.location },
         hasOccupation: {
           '@type': 'Occupation',
-          name: 'Software Developer',
+          name: personal.title,
           occupationLocation: { '@type': 'City', name: 'London' },
-          skills:
-            'React, Next.js, TypeScript, Node.js, Flutter, PostgreSQL, AWS, Docker, GraphQL, GSAP, Three.js, Web3, Tailwind CSS',
-          experienceRequirements: '6+ years',
-          qualifications:
-            'BSc Computer Science First Class Honours - Middlesex University London',
+          skills: allSkills.join(', '),
+          qualifications: `${degree.degree}, ${degree.grade} - ${degree.school}`,
         },
-        memberOf: [
-          {
-            '@type': 'OrganizationRole',
-            roleName: 'Senior Frontend Engineer',
-            startDate: '2025-06',
-            memberOf: {
-              '@type': 'Organization',
-              name: 'ScanSan Properties',
-              url: 'https://scansanproperties.com',
-            },
+        memberOf: experience.map((e) => ({
+          '@type': 'OrganizationRole',
+          roleName: e.role,
+          startDate: e.start,
+          ...(e.end ? { endDate: e.end } : {}),
+          memberOf: {
+            '@type': 'Organization',
+            name: e.company,
+            ...(e.domain ? { url: `https://${e.domain}` } : {}),
           },
-          {
-            '@type': 'OrganizationRole',
-            roleName: 'Lead Software Engineer',
-            startDate: '2023-08',
-            endDate: '2025-05',
-            memberOf: {
-              '@type': 'Organization',
-              name: 'RentSpace Technologies',
-              url: 'https://rentspace.tech',
-            },
-          },
-          {
-            '@type': 'OrganizationRole',
-            roleName: 'Full-Stack Developer',
-            startDate: '2022-04',
-            endDate: '2023-08',
-            memberOf: {
-              '@type': 'Organization',
-              name: 'Vanguard Media Limited',
-              url: 'https://vanguardngr.com',
-            },
-          },
-          {
-            '@type': 'OrganizationRole',
-            roleName: 'Software Developer',
-            startDate: '2021-11',
-            endDate: '2022-03',
-            memberOf: {
-              '@type': 'Organization',
-              name: 'Dowell Research UK',
-              url: 'https://dowellresearch.uk',
-            },
-          },
-          {
-            '@type': 'OrganizationRole',
-            roleName: 'React Native Developer',
-            startDate: '2021-01',
-            endDate: '2021-10',
-            memberOf: {
-              '@type': 'Organization',
-              name: 'FUDAP CO',
-            },
-          },
-          {
-            '@type': 'OrganizationRole',
-            roleName: 'Frontend Developer',
-            startDate: '2020-07',
-            endDate: '2020-12',
-            memberOf: {
-              '@type': 'Organization',
-              name: 'Zummit Africa',
-              url: 'https://zummitafrica.com',
-            },
-          },
-        ],
+        })),
       },
     },
   ],
