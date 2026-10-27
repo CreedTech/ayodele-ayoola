@@ -7,6 +7,8 @@ import TerminalEditor from '@/components/TerminalEditor';
 import { THEMES, themeVars } from '@/lib/terminal-themes';
 import { useModKey } from '@/lib/use-mod-key';
 import LocalTime from '@/components/LocalTime';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowExpand01Icon, ArrowShrink02Icon, Cancel01Icon, MinusSignIcon } from '@hugeicons/core-free-icons';
 import { HOME, STARTERS, complete, display, homeFor, isKnownCommand, pageOf, readFile, run, saveFile, tokenize, type Block, type Ctx } from '@/lib/terminal';
 
 type Entry = { id: number; block: Block };
@@ -288,10 +290,16 @@ export default function Terminal() {
             transition={{ type: 'spring', stiffness: 420, damping: 34 }}
           >
             <header className="tm-bar" onPointerDown={(e) => !full && dragControls.start(e)} onDoubleClick={toggleFull}>
-              <div className="tm-lights">
-                <button type="button" aria-label="Close terminal" className="tm-light tm-light--close" onClick={() => setOpen(false)} />
-                <button type="button" aria-label="Clear terminal" className="tm-light tm-light--min" onClick={() => setEntries([])} />
-                <button type="button" aria-label={full ? 'Exit full screen' : 'Full screen'} className="tm-light tm-light--max" onClick={toggleFull} />
+              <div className="tm-lights" onPointerDown={(e) => e.stopPropagation()} onDoubleClick={(e) => e.stopPropagation()}>
+                <button type="button" aria-label="Close terminal" title="Close" className="tm-light tm-light--close" onClick={() => setOpen(false)}>
+                  <span><HugeiconsIcon icon={Cancel01Icon} size={9} strokeWidth={3} /></span>
+                </button>
+                <button type="button" aria-label="Clear terminal" title="Clear" className="tm-light tm-light--min" onClick={() => setEntries([])}>
+                  <span><HugeiconsIcon icon={MinusSignIcon} size={9} strokeWidth={3} /></span>
+                </button>
+                <button type="button" aria-label={full ? 'Exit full screen' : 'Full screen'} title={full ? 'Exit full screen' : 'Full screen'} className="tm-light tm-light--max" onClick={toggleFull}>
+                  <span><HugeiconsIcon icon={full ? ArrowShrink02Icon : ArrowExpand01Icon} size={9} strokeWidth={3} /></span>
+                </button>
               </div>
               <div className="tm-title">{editing ? `${editing.mode} ${display(editing.path)}` : `ayoola@london: ${path}`}</div>
               <kbd className="tm-kbd">{mod === '⌘' ? '⌘K' : 'Ctrl K'}</kbd>
@@ -403,13 +411,18 @@ const TERMINAL_CSS = `
 .tm-bar { position: relative; display: flex; align-items: center; gap: 12px; height: 40px; padding: 0 14px; border-bottom: 1px solid var(--tm-border); background: var(--tm-chrome); cursor: grab; user-select: none; touch-action: none; }
 .tm--full .tm-bar { cursor: default; }
 .tm-bar:active { cursor: grabbing; }
-.tm-lights { display: flex; gap: 8px; }
-.tm-light { width: 12px; height: 12px; padding: 0; border: 0; border-radius: 50%; cursor: pointer; transition: transform .15s, filter .15s; }
-.tm-light:hover { filter: brightness(1.15); transform: scale(1.12); }
-.tm-light:active { transform: scale(.9); }
-.tm-light--close { background: #ff5f57; }
-.tm-light--min { background: #febc2e; }
-.tm-light--max { background: #28c840; }
+.tm-lights { display: flex; margin-left: -6px; cursor: default; }
+.tm-light { display: grid; place-items: center; width: 24px; height: 28px; padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.tm-light span { display: grid; place-items: center; width: 13px; height: 13px; border-radius: 50%; color: rgba(0,0,0,.6); transition: transform .12s ease-out, filter .12s; }
+.tm-light svg { opacity: 0; transition: opacity .1s; }
+.tm-lights:hover .tm-light svg, .tm-light:focus-visible svg { opacity: 1; }
+.tm-light:hover span { filter: brightness(1.08); }
+.tm-light:active span { transform: scale(.85); filter: brightness(.88); }
+.tm-light:focus-visible { outline: none; }
+.tm-light:focus-visible span { box-shadow: 0 0 0 2px var(--tm-fg); }
+.tm-light--close span { background: #ff5f57; }
+.tm-light--min span { background: #febc2e; }
+.tm-light--max span { background: #28c840; }
 .tm-title { position: absolute; left: 50%; transform: translateX(-50%); font-size: 12.5px; color: color-mix(in srgb, var(--tm-fg) 82%, transparent); white-space: nowrap; }
 .tm-kbd { margin-left: auto; padding: 1px 6px; border: 1px solid var(--tm-border); border-radius: 6px; font: inherit; font-size: 11.5px; color: color-mix(in srgb, var(--tm-fg) 82%, transparent); }
 .tm-body { flex: 1; overflow-y: auto; padding: 14px 18px 18px; overscroll-behavior: contain; scrollbar-width: thin; }
