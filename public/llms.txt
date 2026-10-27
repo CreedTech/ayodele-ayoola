@@ -1,63 +1,58 @@
-# Ayodele Ayoola - Software Developer
+# Ayodele Ayoola - Software Engineer
 
 ## Identity
 - Full name: Ayodele Ayoola
-- Role: Software Developer
+- Role: Software Engineer
 - Location: London, United Kingdom
 - Email: ayodeleayoolaoke4@gmail.com
 - Website: https://ayodeleayoola.com
+- CV: https://ayodeleayoola.com/cv
 - LinkedIn: https://linkedin.com/in/ayodele-ayoola
 - GitHub: https://github.com/creedtech
 
 ## Summary
-Ayodele Ayoola is a Software Developer based in London, UK, with over 6 years of professional experience building high-performance web, mobile, and full-stack applications. He holds a First Class Honours degree in Computer Science from Middlesex University London (2025) and an Advanced Diploma in Software Engineering with Distinction from Aptech Computer Education (2022).
+Ayodele Ayoola is a Software Engineer based in London, UK, with 4 years of professional experience since November 2022. He works across frontend, backend and cross-platform mobile with React, Next.js, TypeScript, Node.js, Fastify, Flutter and React Native, and has built payment and authentication systems, real-time workflows, geospatial visualisation, LLM-powered features and AI agents. He holds a BSc (Hons) in IT & Business Information Systems with First-Class Honours from Middlesex University London (2025).
 
-## Core Expertise
-- Frontend: React, Next.js, TypeScript, JavaScript (ES6+), Redux Toolkit, Tailwind CSS, GSAP, Three.js, Framer Motion
-- Backend: Node.js, Express.js, Python, REST APIs, GraphQL, WebSockets
-- Mobile: Flutter, React Native (iOS & Android)
-- Databases: PostgreSQL, MongoDB, Redis, Firebase / Firestore
-- Cloud & DevOps: AWS (EC2, S3, Lambda), Docker, CI/CD Pipelines, Vercel
-- Testing: Jest, React Testing Library, Cypress, Playwright
-- Design: Figma, Storybook, Design Systems, WCAG Accessibility
-- Payments: Stripe, PayPal, Flutterwave, Paystack
+## Skills
+- Frontend: React, Next.js, TypeScript, JavaScript, React Server Components, Server Actions, TanStack Query/Table, Zustand, Redux, Storybook, Tailwind CSS, accessibility
+- Mobile: Flutter, Dart, React Native, Riverpod, GetX, BLoC/Cubit, go_router, deep links, notifications, offline caching, app releases
+- Backend and data: Node.js, Fastify, Express, REST APIs, PostgreSQL, PostGIS, Prisma, MongoDB, Redis, BullMQ, Socket.IO, Python/Django, authentication, payments and webhooks
+- Maps and AI: MapLibre GL, ArcGIS, WebGL, Three.js, OpenRouter, LangChain, LangSmith
+- Cloud and delivery: Cloudflare/R2, GCP, Docker, GitHub Actions, Grafana, Prometheus, Loki
+- Testing: Jest, Cypress, Playwright, React Testing Library, axe-core
 
 ## Work History
-1. Senior Frontend Developer - ScanSan Properties, London (June 2025 – Present)
-   Leading frontend of a Web3 property investment platform. Built PAA AI assistant and real-time property analytics. Reduced new feature dev time by 25% via reusable UI architecture.
+1. Senior Frontend Engineer - ScanSan Properties, London (Jun 2025 - Present)
+   Property intelligence across valuations, planning, investment analysis and tokenisation. Atlas 2D/3D maps, Chrome and Firefox Property Assistant, 20+ legacy tables replaced with a shared TanStack DataTable, CI checks cut from 7-15 minutes to under 2 (code-to-release 40-50% faster), public pages that grew from 50 to 1,300 viewers. Reduced new-feature development time 25% through reusable UI architecture.
 
-2. Software Developer (Tech Lead) - RentSpace Technologies, London (Aug 2023 – May 2025)
-   Built and launched a cross-platform savings and lending app: 5,000+ MAU, 4.8 App Store rating. Optimised transaction speed 40%, boosted checkout success 30%.
+2. Software Development Lead - RentSpace Technologies, Remote, Nigeria (Nov 2023 - May 2025)
+   Rebuilt the platform across web, backend and mobile in under a month. Savings and lending app with 5,000+ MAU and a 4.8 App Store rating. Led code review, mentoring and delivery. 40% faster transactions, 30% better checkout success, 35% less KYC drop-off, 45% faster feature builds. Interviewed and onboarded seven engineers and designers.
 
-3. Senior Full-Stack Developer - Vanguard Media Limited, Remote (Apr 2022 – Aug 2023)
-   Applications serving 5M+ monthly users. Reduced API load 35%. Contributed to 120% increase in mobile ad revenue.
+3. Software Developer - Dowell Research UK, Remote (contract) (Aug 2023 - Sep 2024)
+   Multi-user UX research platform for 500+ enterprise clients, with Stripe and PayPal. 31 public pull requests to Dowell Scale Function.
 
-4. Software Developer - Dowell Research UK, London (Nov 2021 – Mar 2022)
-   Full-stack UX research platform for 500+ enterprise clients. Integrated Stripe and PayPal for multi-currency transactions.
+4. Full Stack Engineer - Vanguard Media Limited, Nigeria (Dec 2022 - Aug 2023)
+   Web and mobile features for Vanguard News (5M+ monthly active users). 35% lower API load; mobile ad revenue rose 120% during this work.
 
-5. Frontend Mobile Developer (React Native) - FUDAP CO, Remote (Jan 2021 – Oct 2021)
-   Food ordering and delivery app with real-time GPS. Reduced cold-start times 60%, boosted repeat orders 25%.
+5. Frontend Mobile Developer - Fudap Co, Remote (contract) (Nov 2022 - Apr 2023)
+   React Native food ordering and delivery flows. 60% faster startup, 25% more repeat orders.
 
-6. Frontend Web Developer - Zummit Africa, Remote (Jul 2020 – Dec 2020)
-   AI learning platform UI. Reduced load time 68% via lazy loading and code splitting.
+## Projects
+- Onjeki (Co-Founder and CTO): Flutter and Node.js property marketplace for short stays, rentals and sales. https://onjeki.com
+- Croft Group: farm-management platform with Flutter, React and Express/PostgreSQL. https://croftgroup.farm
+- DelacoTech Limited (Founder and CEO): client web and mobile delivery; manages three developers. https://www.delaco.net
+- Meh Tracker: open-source job platform with Next.js and Supabase. https://github.com/git-meh/meh-tracker
+- ReqParser: TypeScript CLI that converts fetch and cURL requests. https://github.com/CreedTech/reqparser
+- RivalRing: led frontend and mobile contributors in a 36-person open-source community.
+- Client work: AwaAgent, SwiftVista, Dammy's Kitchen, SafetyBox Redesign, DBlackRose, PalmeFoods, Oke Jacobs, CESPORA, Nowon Security.
+
+## Open Source
+- Zummit Africa Zapi-FE: 32 authored pull requests, 24 merged. Earlier frontend work on the Zummit platform reduced load time 68% through lazy loading and code splitting.
+- 13 merged pull requests across 12 repositories, including Remotion, freeCodeCamp, django CMS, FCaptcha, sysknife, OpsiMate, DevImpact, Tabularis, Sidequest, HeyGen Hyperframes, Open Glassbeetle and Avenx.
 
 ## Education
-- BSc Computer Science, First Class Honours - Middlesex University London, 2022–2025
-- Advanced Diploma in Software Engineering, Distinction - Aptech Computer Education, 2020–2022
-
-## Notable Projects
-- PAA AI Property Assistant: AI-powered property insight tool for ScanSan's Web3 platform
-- RentSpace Savings App: 5,000+ MAU, 4.8-star cross-platform fintech app
-- Vanguard Media Platform: Web and mobile serving 5M+ monthly users
-- UX Research Platform: Enterprise tool for 500+ global clients with Stripe/PayPal integration
-
-## Services Offered
-- Frontend Engineering (React, Next.js, TypeScript)
-- Full-Stack Development (Node.js, PostgreSQL, MongoDB)
-- Mobile Development (Flutter, React Native)
-- Creative Development (GSAP, Three.js, WebGL)
-- Design Systems (Storybook, Figma, design tokens)
-- Technical Consulting (architecture reviews, performance audits, mentoring)
+- BSc (Hons) IT & Business Information Systems, First-Class Honours - Middlesex University London, 2025
+- Advanced Diploma in Software Engineering (ADSE) - Aptech, 2020-2022
 
 ## Availability
-Available for senior engineering roles, freelance projects, and technical consulting in London and remotely across the UK, Europe, and North America.
+Available for software engineering roles, freelance projects and technical consulting in London and remotely.
