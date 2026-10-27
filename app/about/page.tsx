@@ -8,15 +8,7 @@ import CareerTimeline from '@/components/CareerTimeline';
 import ExperienceList from '@/components/ExperienceList';
 import OpenSourceList from '@/components/OpenSourceList';
 import FooterSection from '@/components/FooterSection';
-import { CV_PAGE_URL, CV_PDF_URL, PORTRAIT_URL, education, personal, yearsLabel } from '@/lib/data';
-
-const STORY = [
-  'I was originally on track to become a medical doctor, but at the last moment I chose a different path. With nothing but a phone and free resources, I started teaching myself how to code driven purely by curiosity and persistence.',
-  'That curiosity led me to Aptech, where a mentor pushed me beyond a basic course into a full diploma in software engineering. Over two years, I built a strong foundation while freelancing and even teaching, before landing my first industry role at Zummit Africa where I quickly transitioned into React, TypeScript, and modern frontend development.',
-  'From there, I expanded into mobile development with Flutter, built multiple side projects, and joined Vanguard Media where I worked across web and mobile while mentoring internally. I also shipped a food ordering app as a freelance React Native developer during this time.',
-  'At RentSpace, I rebuilt the entire platform across web, backend, and mobile in under a month, then scaled it to support real users, payments, and a growing engineering team. I later moved to the UK, graduated with First-Class Honours from Middlesex University, and joined ScanSan as a Senior Frontend Engineer where I delivered production-ready work within my first two weeks.',
-  'Today, I focus on building high-performance, scalable products across web and mobile, combining speed, usability, and clean architecture with a consistent track record of shipping fast and learning even faster.',
-];
+import { CV_PAGE_URL, CV_PDF_URL, PORTRAIT_URL, education, personal, story as STORY, yearsLabel } from '@/lib/data';
 
 export default function AboutPage() {
   return (

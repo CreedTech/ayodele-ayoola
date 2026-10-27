@@ -26,7 +26,7 @@ export default function TerminalOutput({ block, h }: { block: Block; h: Handlers
       return (
         <div className="tm-line">
           <span className="tm-prompt">
-            ayoola@london <span className="tm-path">{block.path === '/' ? '~' : `~${block.path}`}</span> %
+            ayoola@london <span className="tm-path">{block.path}</span> %
           </span>{' '}
           <button type="button" className="tm-rerun" onClick={() => h.onRun(block.text)} title="Run again">
             {block.text}
@@ -35,6 +35,39 @@ export default function TerminalOutput({ block, h }: { block: Block; h: Handlers
       );
     case 'text':
       return <p className={`tm-line tm-${block.tone ?? 'plain'}`}>{block.text}</p>;
+    case 'lines':
+      return (
+        <pre className={`tm-pre tm-${block.tone ?? 'plain'}`}>
+          {block.lines.map((l, i) => (
+            <span key={i}>
+              {block.highlight ? <Highlight text={l} query={block.highlight} /> : l}
+              {'\n'}
+            </span>
+          ))}
+        </pre>
+      );
+    case 'ls':
+      return block.entries.some((e) => e.long) ? (
+        <pre className="tm-pre">
+          {block.entries.map((e) => (
+            <span key={e.name}>
+              <button type="button" className={`tm-ls-item${e.dir ? ' is-dir' : ''}`} onClick={() => h.onRun(e.run)}>
+                {e.long}
+              </button>
+              {'\n'}
+            </span>
+          ))}
+        </pre>
+      ) : (
+        <div className="tm-ls">
+          {block.entries.map((e) => (
+            <button key={e.name} type="button" className={`tm-ls-item${e.dir ? ' is-dir' : ''}`} onClick={() => h.onRun(e.run)}>
+              {e.name}
+              {e.dir ? '/' : ''}
+            </button>
+          ))}
+        </div>
+      );
     case 'rows':
       return (
         <dl className="tm-rows">

@@ -4,13 +4,13 @@ import { usePathname, useRouter } from 'next/navigation';
 import { AnimatePresence, motion, useDragControls } from 'motion/react';
 import TerminalOutput from '@/components/TerminalOutput';
 import LocalTime from '@/components/LocalTime';
-import { STARTERS, complete, isKnownCommand, run, tokenize, type Block, type Ctx } from '@/lib/terminal';
+import { HOME, STARTERS, complete, display, homeFor, isKnownCommand, pageOf, run, tokenize, type Block, type Ctx } from '@/lib/terminal';
 
 type Entry = { id: number; block: Block };
 
 const HISTORY_KEY = 'ayoola-terminal-history';
 const WELCOME: Block[] = [
-  { t: 'text', text: 'ayoola os, interactive shell. Every command reads the real portfolio data.', tone: 'strong' },
+  { t: 'text', text: 'ayoola os. A real shell over a file system built from the portfolio: cd, ls, cat, grep, pipes and all.', tone: 'strong' },
   { t: 'chips', label: 'Try', items: STARTERS.map((s) => ({ label: s, run: s })) },
 ];
 
@@ -32,12 +32,31 @@ export default function Terminal() {
   const [entries, setEntries] = useState<Entry[]>(() => WELCOME.map((block, i) => ({ id: i, block })));
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<string[]>(loadHistory);
+  const [cwd, setCwdState] = useState(() => homeFor(pathname) ?? HOME);
+  const [env, setEnvState] = useState<Record<string, string>>({ USER: 'ayoola', HOME, SHELL: '/bin/zsh', LANG: 'en_GB.UTF-8', TZ: 'Europe/London', EDITOR: 'vim', TERM: 'xterm-256color' });
+  const cwdRef = useRef(cwd);
+  const prevRef = useRef(HOME);
   const [cursor, setCursor] = useState<number | null>(null);
   const [cycle, setCycle] = useState<{ base: string; i: number } | null>(null);
   const nextId = useRef(WELCOME.length);
   const inputRef = useRef<HTMLInputElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
   const constraintsRef = useRef<HTMLDivElement>(null);
+
+  const setCwd = useCallback((next: string) => {
+    prevRef.current = cwdRef.current;
+    cwdRef.current = next;
+    setCwdState(next);
+  }, []);
+
+  useEffect(() => {
+    const target = homeFor(pathname);
+    const current = pageOf(cwdRef.current)?.split('#')[0];
+    if (target && current !== pathname && cwdRef.current !== target) {
+      cwdRef.current = target;
+      setCwdState(target);
+    }
+  }, [pathname]);
 
   const push = useCallback((blocks: Block[]) => {
     setEntries((prev) => [...prev, ...blocks.map((block) => ({ id: nextId.current++, block }))]);
@@ -60,7 +79,15 @@ export default function Terminal() {
     (line: string) => {
       const trimmed = line.trim();
       const ctx: Ctx = {
-        path: pathname,
+        get cwd() {
+          return cwdRef.current;
+        },
+        get prevCwd() {
+          return prevRef.current;
+        },
+        env,
+        setCwd,
+        setEnv: (k, v) => setEnvState((e) => ({ ...e, [k]: v })),
         history,
         navigate: (p) => router.push(p),
         open: openUrl,
@@ -68,7 +95,7 @@ export default function Terminal() {
         clear: () => setEntries([]),
         close: () => setOpen(false),
       };
-      const echo: Block = { t: 'input', text: trimmed, path: pathname };
+      const echo: Block = { t: 'input', text: trimmed, path: display(cwdRef.current) };
       if (!trimmed) {
         push([echo]);
         return;
@@ -87,7 +114,7 @@ export default function Terminal() {
       setCursor(null);
       setCycle(null);
     },
-    [copy, history, openUrl, pathname, push, router],
+    [copy, env, history, openUrl, push, router, setCwd],
   );
 
   useEffect(() => {
@@ -121,7 +148,7 @@ export default function Terminal() {
     if (el) el.scrollTo({ top: el.scrollHeight });
   }, [entries]);
 
-  const suggestions = useMemo(() => (input ? complete(input) : []), [input]);
+  const suggestions = useMemo(() => (input ? complete(input, cwd) : []), [input, cwd]);
   const ghost = suggestions[0]?.toLowerCase().startsWith(input.toLowerCase()) ? suggestions[0].slice(input.length) : '';
   const words = input.match(/^(\s*)(\S*)([\s\S]*)$/) ?? ['', '', '', ''];
   const known = isKnownCommand(words[2].toLowerCase());
@@ -133,11 +160,11 @@ export default function Terminal() {
     } else if (e.key === 'Tab') {
       e.preventDefault();
       const base = cycle?.base ?? input;
-      const options = complete(base);
+      const options = complete(base, cwd);
       if (!options.length) return;
       const i = cycle ? (cycle.i + 1) % options.length : 0;
       const pick = options[i];
-      setInput(options.length === 1 && !pick.includes(' ') ? `${pick} ` : pick);
+      setInput(options.length === 1 && !pick.endsWith('/') && !pick.includes(' ') ? `${pick} ` : pick);
       setCycle(options.length > 1 ? { base, i } : null);
     } else if (e.key === 'ArrowRight' && ghost && inputRef.current?.selectionStart === input.length) {
       e.preventDefault();
@@ -164,7 +191,7 @@ export default function Terminal() {
       setEntries([]);
     } else if (e.ctrlKey && e.key.toLowerCase() === 'c') {
       e.preventDefault();
-      push([{ t: 'input', text: `${input}^C`, path: pathname }]);
+      push([{ t: 'input', text: `${input}^C`, path: display(cwdRef.current) }]);
       setInput('');
     } else if (e.ctrlKey && e.key.toLowerCase() === 'u') {
       e.preventDefault();
@@ -189,7 +216,7 @@ export default function Terminal() {
     [copy, execute, openUrl, push],
   );
 
-  const path = pathname === '/' ? '~' : `~${pathname}`;
+  const path = display(cwd);
 
   return (
     <div ref={constraintsRef} className="tm-layer">
@@ -269,7 +296,7 @@ export default function Terminal() {
                     <button
                       key={s}
                       type="button"
-                      className={`tm-chip${cycle && complete(cycle.base)[cycle.i] === s ? ' is-active' : ''}`}
+                      className={`tm-chip${cycle && complete(cycle.base, cwd)[cycle.i] === s ? ' is-active' : ''}`}
                       onClick={() => {
                         setInput(s);
                         inputRef.current?.focus();
@@ -315,6 +342,11 @@ const TERMINAL_CSS = `
 .tm-kbd { margin-left: auto; padding: 1px 6px; border: 1px solid rgba(255,255,255,.14); border-radius: 6px; font: inherit; font-size: 11.5px; color: #d4d4d8; }
 .tm-body { flex: 1; overflow-y: auto; padding: 14px 18px 18px; overscroll-behavior: contain; scrollbar-width: thin; }
 .tm-line { margin: 2px 0; white-space: pre-wrap; word-break: break-word; }
+.tm-pre { margin: 2px 0 8px; font: inherit; white-space: pre-wrap; word-break: break-word; }
+.tm-ls { display: grid; grid-template-columns: repeat(auto-fill, minmax(22ch, 1fr)); gap: 0 16px; margin: 2px 0 8px; }
+.tm-ls-item { padding: 0; border: 0; background: none; color: #d4d4d8; font: inherit; text-align: left; cursor: pointer; white-space: pre; overflow: hidden; text-overflow: ellipsis; }
+.tm-ls-item.is-dir { color: #fff; font-weight: 700; }
+.tm-ls-item:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
 .tm-plain { color: #fff; }
 .tm-strong { color: #fff; font-weight: 600; }
 .tm-muted { color: #a1a1aa; }
