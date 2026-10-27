@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { personal, socials } from '@/lib/data';
+import { personal, socials, stackCategories } from '@/lib/data';
 
 interface TerminalLine {
   type: 'input' | 'output' | 'error' | 'system';
@@ -55,7 +55,7 @@ function runCommand(cmd: string, history: string[]): TerminalLine[] {
         { type: 'output', content: '  ls              List sections' },
         {
           type: 'output',
-          content: '  cd [section]    Navigate (about / stack / work / home)',
+          content: '  cd [section]    Navigate (about / stack / cv / work / home)',
         },
         { type: 'output', content: '  skills          Tech stack overview' },
         {
@@ -85,7 +85,7 @@ function runCommand(cmd: string, history: string[]): TerminalLine[] {
         { type: 'output', content: '' },
         {
           type: 'output',
-          content: '  home/   about/   work/   stack/   contact/',
+          content: '  home/   about/   work/   stack/   cv/   contact/',
         },
         { type: 'output', content: '' },
       ];
@@ -95,6 +95,7 @@ function runCommand(cmd: string, history: string[]): TerminalLine[] {
       const routes: Record<string, string> = {
         about: '/about',
         stack: '/stack',
+        cv: '/cv',
         work: '/#work',
         home: '/',
         contact: '/contact',
@@ -112,26 +113,10 @@ function runCommand(cmd: string, history: string[]): TerminalLine[] {
     case 'skills':
       return [
         { type: 'output', content: '' },
-        {
-          type: 'output',
-          content:
-            '  Frontend  : React, Next.js, TypeScript, Redux, Tailwind, GSAP, Three.js',
-        },
-        {
-          type: 'output',
-          content:
-            '  Backend   : Node.js, Express, Python, GraphQL, WebSockets',
-        },
-        {
-          type: 'output',
-          content: '  Database  : PostgreSQL, MongoDB, Redis, Firebase',
-        },
-        { type: 'output', content: '  Mobile    : Flutter, React Native' },
-        { type: 'output', content: '  Cloud     : AWS, Docker, Vercel, CI/CD' },
-        {
-          type: 'output',
-          content: '  Payment   : Stripe, Flutterwave, Paystack, PayPal',
-        },
+        ...stackCategories.map((c) => ({
+          type: 'output' as const,
+          content: `  ${c.label.padEnd(19)}: ${c.skills.join(', ')}`,
+        })),
         { type: 'output', content: '' },
       ];
 
@@ -172,7 +157,7 @@ function runCommand(cmd: string, history: string[]): TerminalLine[] {
         { type: 'output', content: '  Currently open to:' },
         {
           type: 'output',
-          content: '    ▸ Software Developer / Senior Frontend roles',
+          content: '    ▸ Software Engineer / Senior Frontend roles',
         },
         { type: 'output', content: '    ▸ Freelance & contract projects' },
         {

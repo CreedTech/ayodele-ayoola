@@ -2,7 +2,6 @@
 import { useSyncExternalStore } from "react";
 import Terminal       from "./Terminal";
 import ShortcutsPanel from "./ShortcutsPanel";
-import LinkHoverCursor from "./LinkHoverCursor";
 import LinkPreview    from "./LinkPreview";
 
 function useIsMounted() {
@@ -20,7 +19,6 @@ export default function GlobalShell() {
     <>
       <Terminal />
       <ShortcutsPanel />
-      <LinkHoverCursor />
       <LinkPreview />
     </>
   );
