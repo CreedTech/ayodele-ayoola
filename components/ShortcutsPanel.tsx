@@ -26,7 +26,8 @@ const SHORTCUTS: ShortcutGroup[] = [
   {
     label: "Terminal",
     items: [
-      { key: "`", desc: "Open / close terminal" },
+      { key: "⌘K", desc: "Open or close the terminal" },
+      { key: "`", desc: "Open or close the terminal" },
     ],
   },
   {
