@@ -1,137 +1,62 @@
 'use client';
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import { motion, MotionConfig } from 'motion/react';
+import SectionHeading from '@/components/SectionHeading';
 const GitHubCalendarWrapper = dynamic(() => import('./GitHubCalendarWrapper'), { ssr: false });
 
 const CURRENT_YEAR = new Date().getFullYear();
-const YEARS = [
-  CURRENT_YEAR,
-  CURRENT_YEAR - 1,
-  CURRENT_YEAR - 2,
-  CURRENT_YEAR - 3,
-  CURRENT_YEAR - 4,
-];
+const YEARS = Array.from({ length: 5 }, (_, i) => CURRENT_YEAR - i);
+
 export default function GitHubSection() {
   const [year, setYear] = useState(CURRENT_YEAR);
   return (
-    <section
-      id="github"
-      className="sec-lg pg"
-      style={{
-        position: 'relative',
-        zIndex: 2,
-        borderTop: '1px solid var(--border)',
-      }}
-    >
-      <style>{`
-        .gh-yr-btn {
-          padding: 5px 14px;
-          border-radius: 100px;
-          border: none;
-          background: rgba(255,255,255,.04);
-          color: var(--muted);
-          font-size: 12px;
-          cursor: pointer;
-          letter-spacing: .03em;
-          transition: background .15s, color .15s;
-          font-family: inherit;
-        }
-        .gh-yr-btn:hover {
-          background: rgba(255,255,255,.08);
-          color: var(--text);
-        }
-        .gh-yr-btn--active {
-          background: var(--accent) !important;
-          color: #000 !important;
-          font-weight: 600;
-        }
-        .gh-yr-btn--active:hover {
-          background: var(--accent) !important;
-          color: #000 !important;
-        }
-        @media (max-width: 1024px) {
-          .gh-card, .gh-heading { width: 82% !important; }
-          .gh-card { padding: 26px 24px 22px !important; }
-        }
-        @media (max-width: 768px) {
-          .gh-card, .gh-heading { width: 100% !important; }
-          .gh-card { padding: 24px 16px 20px !important; }
-          .gh-card-body { flex-direction: column !important; }
-          .gh-year-list {
-            flex-direction: row !important;
-            flex-wrap: wrap !important;
-            padding-top: 0 !important;
+    <MotionConfig reducedMotion="user">
+      <section id="github" className="col-sec">
+        <style>{`
+          .gh-years { display: flex; gap: 2px; }
+          .gh-yr-btn { position: relative; padding: 3px 10px; border: 0; border-radius: 8px; background: transparent; color: var(--muted); font: inherit; font-size: 14px; font-variant-numeric: tabular-nums; cursor: pointer; transition: color .2s, transform .15s var(--ease-out); }
+          .gh-yr-btn:hover { color: var(--text); }
+          .gh-yr-btn:active { transform: scale(.94); }
+          .gh-yr-btn[aria-pressed="true"] { color: var(--text); }
+          .gh-yr-btn span { position: relative; }
+          .gh-yr-pill { position: absolute; inset: 0; border-radius: 8px; background: rgba(255,255,255,.09); box-shadow: inset 0 0 0 1px rgba(255,255,255,.06); }
+        `}</style>
+        <SectionHeading
+          aside={
+            <div className="gh-years">
+              {YEARS.map((y) => (
+                <button
+                  key={y}
+                  type="button"
+                  aria-pressed={year === y}
+                  onClick={() => setYear(y)}
+                  className="gh-yr-btn"
+                >
+                  {year === y && (
+                    <motion.span
+                      layoutId="gh-year-pill"
+                      className="gh-yr-pill"
+                      transition={{ type: 'spring', stiffness: 500, damping: 38 }}
+                    />
+                  )}
+                  <span>{y}</span>
+                </button>
+              ))}
+            </div>
           }
-        }
-      `}</style>
-
-      <div className="gh-heading" style={{ width: '65%', margin: '0 auto 20px' }}>
-        <p style={{
-          fontSize: 11,
-          letterSpacing: '.28em',
-          textTransform: 'uppercase',
-          color: 'var(--accent)',
-          marginBottom: 12,
-        }}>
-          GitHub Activity
-        </p>
-        <h2
-          className="font-display"
-          style={{ fontSize: 'clamp(28px,4vw,48px)', fontWeight: 700, letterSpacing: '-.03em', lineHeight: 1 }}
         >
           Contributions
-        </h2>
-      </div>
-
-      <div
-        className="gh-card"
-        style={{
-          width: '65%',
-          margin: '0 auto',
-          background: '#0f0f0f',
-          border: '1px solid var(--border)',
-          borderRadius: 16,
-          padding: '28px 32px 24px',
-        }}
-      >
-        <div
-          className="gh-card-body"
-          style={{ display: 'flex', gap: 24, alignItems: 'flex-start' }}
+        </SectionHeading>
+        <motion.div
+          key={year}
+          initial={{ opacity: 0, y: 6, filter: 'blur(4px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          transition={{ duration: 0.35, ease: [0.2, 0.7, 0.2, 1] }}
         >
-          <div
-            style={{
-              flex: 1,
-              minWidth: 0,
-              paddingBottom: 4,
-            }}
-          >
-            <GitHubCalendarWrapper year={year} />
-          </div>
-
-          <div
-            className="gh-year-list"
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 6,
-              flexShrink: 0,
-              paddingTop: 2,
-            }}
-          >
-            {YEARS.map((y) => (
-              <button
-                key={y}
-                onClick={() => setYear(y)}
-                className={`gh-yr-btn${year === y ? ' gh-yr-btn--active' : ''}`}
-              >
-                {y}
-              </button>
-            ))}
-          </div>
-         
-            {/* <GitHubCalendarWrapper year={CURRENT_YEAR} /> */}
-          </div>
-        </div>
-    </section>
+          <GitHubCalendarWrapper year={year} />
+        </motion.div>
+      </section>
+    </MotionConfig>
   );
 }

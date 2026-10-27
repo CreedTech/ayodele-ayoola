@@ -9,13 +9,11 @@ export default function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
   return (
     <nav
       aria-label="Breadcrumb"
+      className="col"
       style={{
-        padding: '14px 32px',
-        fontSize: '11px',
-        letterSpacing: '0.06em',
+        paddingTop: 40,
+        fontSize: 14,
         color: 'var(--muted)',
-        borderBottom: '1px solid var(--border)',
-        background: 'transparent',
       }}
     >
       <ol

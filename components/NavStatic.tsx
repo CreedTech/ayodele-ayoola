@@ -7,6 +7,7 @@ const links = [
   { href: '/about', label: 'About' },
   { href: '/projects', label: 'Projects' },
   { href: '/stack', label: 'Stack' },
+  { href: '/cv', label: 'CV' },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -20,14 +21,13 @@ export default function NavStatic() {
         style={{
           position: 'relative',
           zIndex: 100,
-          paddingTop: '22px',
-          paddingBottom: '22px',
+          maxWidth: 928,
+          margin: '0 auto',
+          padding: '22px 24px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          borderBottom: '1px solid var(--border)',
         }}
-        className="pg"
       >
         <Link
           href="/"
@@ -58,9 +58,7 @@ export default function NavStatic() {
                 href={l.href}
                 className="nav-static__link"
                 style={{
-                  fontSize: 12,
-                  letterSpacing: '.08em',
-                  textTransform: 'uppercase',
+                  fontSize: 14,
                   color: isActive ? 'var(--text)' : 'var(--muted)',
                   textDecoration: 'none',
                   transition: 'color .1s ease',
@@ -127,8 +125,6 @@ export default function NavStatic() {
             className="nav-static__cta"
             style={{
               fontSize: 12,
-              letterSpacing: '.08em',
-              textTransform: 'uppercase',
               color: 'var(--accent)',
               textDecoration: 'none',
               border: '1px solid rgba(34,197,94,.3)',
@@ -137,7 +133,7 @@ export default function NavStatic() {
               transition: 'background .12s',
             }}
           >
-            Hire Me
+            Hire me
           </Link>
 
           {/* Mobile hamburger */}
@@ -185,8 +181,6 @@ export default function NavStatic() {
                 onClick={() => setMobileOpen(false)}
                 style={{
                   fontSize: 13,
-                  letterSpacing: '.08em',
-                  textTransform: 'uppercase',
                   color: isActive ? 'var(--accent)' : 'var(--muted)',
                   textDecoration: 'none',
                   padding: '12px 0',

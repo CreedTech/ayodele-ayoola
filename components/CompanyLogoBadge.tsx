@@ -1,3 +1,4 @@
+"use client";
 interface CompanyLogoBadgeProps {
   company: string;
   logo: string;
@@ -24,7 +25,6 @@ export function CompanyLogoBadge({
         height: size,
         borderRadius: 8,
         background: "transparent",
-        border: ".5px solid rgba(255,255,255,.08)",
         overflow: "hidden",
         display: "flex",
         alignItems: "center",

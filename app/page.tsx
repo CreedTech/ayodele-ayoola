@@ -1,19 +1,27 @@
-'use client';
-import { useEffect } from 'react';
-import Lenis from 'lenis';
-import gsap from 'gsap';
-import ScrollTrigger from 'gsap/ScrollTrigger';
-
-import HeroSection from '@/components/HeroSection';
-import MarqueeSection from '@/components/MarqueeSection';
-import ExperienceOverviewSection from '@/components/ExperienceOverviewSection';
+import HomeIntro from '@/components/HomeIntro';
+import SectionHeading from '@/components/SectionHeading';
+import CareerTimeline from '@/components/CareerTimeline';
+import ExperienceList from '@/components/ExperienceList';
+import ProjectGroups from '@/components/ProjectGroups';
+import OpenSourceList from '@/components/OpenSourceList';
 import GitHubSection from '@/components/GitHubSection';
-// import ServicesSection from '@/components/ServicesSection';
 import ContactSection from '@/components/ContactSection';
 import FooterSection from '@/components/FooterSection';
 import JsonLd from '@/components/JsonLd';
+import {
+  SITE_URL,
+  personal,
+  experience,
+  education,
+  allSkills,
+  yearsLabel,
+  careerStart,
+  projects,
+} from '@/lib/data';
 
-const SITE_URL = 'https://ayodeleayoola.com';
+const [degree, diploma] = education;
+const current = experience.find((e) => !e.end);
+const personDescription = `${personal.title} with ${yearsLabel} building web, mobile and full-stack products with React, Next.js, TypeScript, Node.js and Flutter. ${degree.grade}, ${degree.degree}, ${degree.school}. Based in London, UK.`;
 
 const graphSchema = {
   '@context': 'https://schema.org',
@@ -31,11 +39,10 @@ const graphSchema = {
         width: 1200,
         height: 630,
       },
-      jobTitle: 'Software Developer',
-      description:
-        'Software Developer with 6+ years building high-performance web, mobile, and full-stack applications. Specialising in React, Next.js, TypeScript, and Flutter. First Class Honours in Computer Science from Middlesex University London. Based in London, UK.',
-      email: 'ayodeleayoolaoke4@gmail.com',
-      telephone: '+447551113208',
+      jobTitle: personal.title,
+      description: personDescription,
+      email: personal.email,
+      telephone: personal.phone,
       address: {
         '@type': 'PostalAddress',
         addressLocality: 'London',
@@ -55,109 +62,55 @@ const graphSchema = {
         },
         {
           '@type': 'EducationalOrganization',
-          name: 'Aptech Computer Education',
+          name: diploma.school,
         },
       ],
       hasCredential: [
         {
           '@type': 'EducationalOccupationalCredential',
-          name: 'BSc Computer Science - First Class Honours',
+          name: `${degree.degree} - ${degree.grade}`,
           credentialCategory: 'degree',
-          dateCreated: '2025',
+          dateCreated: degree.year,
           recognizedBy: {
             '@type': 'CollegeOrUniversity',
-            name: 'Middlesex University London',
+            name: degree.school,
           },
         },
         {
           '@type': 'EducationalOccupationalCredential',
-          name: 'Advanced Diploma in Software Engineering - Distinction',
+          name: diploma.degree,
           credentialCategory: 'diploma',
           dateCreated: '2022',
           recognizedBy: {
             '@type': 'EducationalOrganization',
-            name: 'Aptech Computer Education',
+            name: diploma.school,
           },
         },
       ],
       hasOccupation: {
         '@type': 'Occupation',
-        name: 'Software Developer',
+        name: personal.title,
         occupationLocation: { '@type': 'City', name: 'London' },
-        description:
-          'Builds high-performance web, mobile, and full-stack applications using React, Next.js, TypeScript, Flutter, and Node.js.',
-        skills:
-          'React, Next.js, TypeScript, JavaScript, Node.js, Flutter, React Native, PostgreSQL, MongoDB, Redis, AWS, Docker, GraphQL, GSAP, Three.js, Web3, Tailwind CSS, Python, Figma, Design Systems',
-        estimatedSalary: {
-          '@type': 'MonetaryAmountDistribution',
-          name: 'Software Developer London',
-          currency: 'GBP',
-          duration: 'P1Y',
-          percentile10: 60000,
-          percentile25: 75000,
-          median: 95000,
-          percentile75: 120000,
-          percentile90: 150000,
-        },
+        description: `Builds web, mobile and full-stack products with ${personal.headline}.`,
+        skills: allSkills.join(', '),
       },
-      worksFor: [
-        {
-          '@type': 'OrganizationRole',
-          roleName: 'Senior Frontend Engineer',
-          startDate: '2025-06',
-          memberOf: {
-            '@type': 'Organization',
-            '@id': `${SITE_URL}/#org-scansan`,
-            name: 'ScanSan Properties',
-            url: 'https://scansanproperties.com',
-            address: {
-              '@type': 'PostalAddress',
-              addressLocality: 'London',
-              addressCountry: 'GB',
+      worksFor: current
+        ? [
+            {
+              '@type': 'OrganizationRole',
+              roleName: current.role,
+              startDate: current.start,
+              memberOf: {
+                '@type': 'Organization',
+                '@id': `${SITE_URL}/#org-current`,
+                name: current.company,
+                url: `https://${current.domain}`,
+              },
             },
-          },
-        },
-      ],
-      knowsAbout: [
-        'React',
-        'Next.js',
-        'TypeScript',
-        'JavaScript',
-        'Node.js',
-        'Express.js',
-        'Flutter',
-        'React Native',
-        'PostgreSQL',
-        'MongoDB',
-        'Redis',
-        'AWS',
-        'Docker',
-        'GraphQL',
-        'WebSockets',
-        'GSAP',
-        'Three.js',
-        'Web3',
-        'Tailwind CSS',
-        'Python',
-        'Django',
-        'Figma',
-        'Design Systems',
-        'Core Web Vitals',
-        'Performance Optimisation',
-        'Geospatial Systems',
-        'Real-time Systems',
-        'Payment Integrations',
-        'Storybook',
-        'WCAG Accessibility',
-        'CI/CD Pipelines',
-        'Stripe',
-        'Paystack',
-        'Flutterwave',
-      ],
-      award: [
-        'BSc Computer Science First Class Honours - Middlesex University London, 2025',
-        'Advanced Diploma in Software Engineering Distinction - Aptech Computer Education, 2022',
-      ],
+          ]
+        : [],
+      knowsAbout: allSkills,
+      award: [`${degree.degree}, ${degree.grade} - ${degree.school}, ${degree.year}`],
       mainEntityOfPage: `${SITE_URL}/about`,
       sameAs: [
         'https://linkedin.com/in/ayodele-ayoola',
@@ -170,9 +123,9 @@ const graphSchema = {
       '@type': 'WebSite',
       '@id': `${SITE_URL}/#website`,
       url: SITE_URL,
-      name: 'Ayodele Ayoola - Software Developer',
+      name: `${personal.name} - ${personal.title}`,
       description:
-        'Portfolio of Ayodele Ayoola, Software Developer based in London, UK. React, Next.js, TypeScript, Flutter, Node.js expert.',
+        `Portfolio of ${personal.name}, ${personal.title} based in London, UK.`,
       author: { '@id': `${SITE_URL}/#person` },
       publisher: { '@id': `${SITE_URL}/#person` },
       inLanguage: 'en-GB',
@@ -183,9 +136,8 @@ const graphSchema = {
       '@type': 'WebPage',
       '@id': `${SITE_URL}/#webpage`,
       url: SITE_URL,
-      name: 'Ayodele Ayoola - Software Developer, London',
-      description:
-        'Software Developer with 6+ years building high-performance web, mobile, and full-stack applications. React, Next.js, TypeScript, Flutter expert based in London, UK.',
+      name: `${personal.name} - ${personal.title}, London`,
+      description: personDescription,
       isPartOf: { '@id': `${SITE_URL}/#website` },
       about: { '@id': `${SITE_URL}/#person` },
       author: { '@id': `${SITE_URL}/#person` },
@@ -210,6 +162,7 @@ const graphSchema = {
         `${SITE_URL}/about`,
         `${SITE_URL}/projects`,
         `${SITE_URL}/stack`,
+        `${SITE_URL}/cv`,
         `${SITE_URL}/contact`,
       ],
     },
@@ -251,7 +204,7 @@ const graphSchema = {
               '@type': 'Service',
               name: 'Full-Stack Development',
               description:
-                'End-to-end solutions with Node.js, PostgreSQL, MongoDB, and REST/GraphQL APIs.',
+                'End-to-end products with Node.js, Fastify, PostgreSQL, Redis and REST APIs.',
             },
           },
           {
@@ -302,7 +255,7 @@ const graphSchema = {
           name: 'Who is Ayodele Ayoola?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Ayodele Ayoola is a Software Developer based in London, UK, with 6+ years of experience building high-performance web, mobile, and full-stack applications. He holds a First Class Honours degree in Computer Science from Middlesex University London and has worked for companies including ScanSan Properties, RentSpace Technologies, Vanguard Media, and Dowell Research.',
+            text: `${personal.name} is a ${personal.title} based in London, UK, with ${yearsLabel} of experience building web, mobile and full-stack products. He holds a ${degree.grade} ${degree.degree} from ${degree.school} and has worked for ${experience.map((e) => e.company).join(', ')}.`,
           },
         },
         {
@@ -310,7 +263,7 @@ const graphSchema = {
           name: 'What technologies does Ayodele Ayoola specialise in?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Ayodele specialises in React, Next.js, TypeScript, Node.js, Flutter, React Native, PostgreSQL, MongoDB, AWS, GSAP, Three.js, Tailwind CSS, GraphQL, Docker, and Web3 technologies.',
+            text: `Ayodele specialises in ${personal.headline}, with PostgreSQL, PostGIS, Redis, MapLibre GL, Docker and GCP.`,
           },
         },
         {
@@ -326,7 +279,7 @@ const graphSchema = {
           name: 'What notable projects has Ayodele Ayoola built?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Notable projects include: the PAA AI Property Assistant for ScanSan (Web3 property investment platform), RentSpace Platform (5,000+ MAU, 4.8-star App Store rating), Vanguard Media Platform (5M+ monthly users), Dowell Research UX Platform (500+ enterprise clients), and SwiftVista utility payment system.',
+            text: 'Notable projects include the ScanSan property intelligence platform with Atlas 2D/3D maps and the Chrome and Firefox Property Assistant, the Onjeki property marketplace (co-founder and CTO), the RentSpace savings and lending app (5,000+ MAU, 4.8-star App Store rating), Vanguard News (5M+ monthly users), the Dowell Research UX platform (500+ enterprise clients), and open-source fixes merged into Remotion, freeCodeCamp and django CMS.',
           },
         },
         {
@@ -342,7 +295,7 @@ const graphSchema = {
           name: "What is Ayodele Ayoola's educational background?",
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Ayodele holds a First Class Honours BSc in Computer Science from Middlesex University London (2025) and an Advanced Diploma in Software Engineering with Distinction from Aptech Computer Education (2022).',
+            text: `Ayodele holds a ${degree.degree} with ${degree.grade} from ${degree.school} (${degree.year}) and an ${diploma.degree} from ${diploma.school} (${diploma.year}).`,
           },
         },
         {
@@ -350,7 +303,7 @@ const graphSchema = {
           name: 'How many years of experience does Ayodele Ayoola have?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Ayodele Ayoola has over 6 years of professional software development experience, starting in 2019 with roles spanning frontend, full-stack, mobile, and technical leadership across PropTech, FinTech, media, and research sectors.',
+            text: `${personal.name} has ${yearsLabel} of professional software experience, starting in ${careerStart.slice(0, 4)}, with roles spanning frontend, full-stack, mobile and technical leadership across PropTech, FinTech, media and research.`,
           },
         },
       ],
@@ -360,7 +313,6 @@ const graphSchema = {
       '@id': `${SITE_URL}/#nav`,
       name: 'Site Navigation',
       itemListElement: [
-        { '@type': 'SiteLinksSearchBox', target: SITE_URL },
         {
           '@type': 'ListItem',
           position: 1,
@@ -397,34 +349,28 @@ const graphSchema = {
 };
 
 export default function Home() {
-  useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
-    const lenis = new Lenis({
-      duration: 0.9,
-      easing: (t: number) => 1 - Math.pow(1 - t, 3),
-    });
-
-    lenis.on('scroll', () => ScrollTrigger.update());
-
-    const tick = (t: number) => lenis.raf(t * 1000);
-    gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
-
-    return () => {
-      lenis.destroy();
-      gsap.ticker.remove(tick);
-    };
-  }, []);
-
   return (
-    <main>
+    <main className="col">
       <JsonLd data={graphSchema} />
-      <HeroSection />
-      <MarqueeSection />
-      <ExperienceOverviewSection />
+      <HomeIntro />
+
+      <section id="work" className="col-sec rise" style={{ ['--i' as string]: 1 }}>
+        <SectionHeading aside={yearsLabel}>Work</SectionHeading>
+        <CareerTimeline style={{ margin: '0 0 28px' }} />
+        <ExperienceList />
+      </section>
+
+      <section id="projects" className="col-sec rise" style={{ ['--i' as string]: 2 }}>
+        <SectionHeading aside={`${projects.length} projects`}>Projects</SectionHeading>
+        <ProjectGroups />
+      </section>
+
+      <section id="open-source" className="col-sec">
+        <SectionHeading>Open source</SectionHeading>
+        <OpenSourceList />
+      </section>
+
       <GitHubSection />
-      {/* <ServicesSection /> */}
       <ContactSection />
       <FooterSection />
     </main>
